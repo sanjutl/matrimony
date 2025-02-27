@@ -2,12 +2,13 @@ import connectdb from "./mongoDB/index.js";
 import { app } from "./app.js";
 import http from "http";
 import { Server } from "socket.io";
+import path from "path";
 
 const server = http.createServer(app); 
 
 const io = new Server(server, {
   cors: {
-    origin: "http://65.1.149.133:3000",
+    origin: "65.1.149.133:3000",
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -40,6 +41,10 @@ io.on("connection", (socket) => {
   });
 });
 app.set("io", io);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 connectdb()
   .then(() => {
