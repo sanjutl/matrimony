@@ -80,7 +80,7 @@ function Nav({ userId }) {
           >
             <span className="material-symbols-outlined">home</span>
             <span className="matches-text">
-              <h4>Home</h4>
+              <h4 className="NavText">Home</h4>
             </span>
           </button>
 
@@ -90,7 +90,7 @@ function Nav({ userId }) {
           >
             <span className="material-symbols-outlined">group</span>
             <span className="matches-text">
-              <h4>Matches</h4>
+              <h4 className="NavText">Matches</h4>
             </span>
           </button>
 
@@ -98,8 +98,8 @@ function Nav({ userId }) {
             className="icon-button7"
             onClick={() => setShowNotifications((prev) => !prev)}
           >
-            <span className="material-symbols-outlined">notifications</span>
-            <h6>Notification</h6>
+            <span className="material-symbols-outlined ">notifications</span>
+            <h6 className="NavText"> Notification</h6>
             {hasUnreadMessages && <div className="notification-alert"></div>}
             {showNotifications && (
               <div className="notification-dropdown">

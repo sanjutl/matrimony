@@ -959,9 +959,13 @@ a {
     width: 70%;
     /* border: 2px solid red; */
   }
-  .ProfileDiv,
+  
   .FilterDiv {
     width: 100%;
+    right: 5px;
+  }
+  .ProfileDiv{
+    width: 25%;
     right: 5px;
   }
   .FilterDivMain{

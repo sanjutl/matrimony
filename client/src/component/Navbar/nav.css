@@ -5,7 +5,7 @@
     padding: 10px 20px;
     background-color: #f5f5f5;
     gap: 20px;
-    height: 50px;
+    height: 70px;
 
   }
   
@@ -23,7 +23,13 @@
     cursor: pointer;
     gap: 8px;
     position: relative;
+    padding: 20px;
+    transition:  all ease 0.5s;
   }
+  .icon-button7:hover{
+    color: #f8cb58;
+  }
+
   .notification-alert{
     position:absolute;
     top:0px;
@@ -115,7 +121,9 @@
   .notification-item:hover {
     background-color: #f0f0f0;
   }
-  
+  .NavText{
+    font-size: 18px;
+  }
   .no-notifications {
     text-align: center;
     padding: 10px;
@@ -160,6 +168,9 @@
       width: 50%; /* Make buttons full-width on small screens */
       margin: 0 auto; /* Center buttons */
     }
+  .icon-button7 {
+    padding: 0px;
+  }
   }
   @media (max-width: 480px) {
     .Prof-header {
