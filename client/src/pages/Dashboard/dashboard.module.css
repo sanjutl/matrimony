@@ -18,7 +18,7 @@
   width: 75%;
   /* border: 2px solid #666; */
   margin-top: 5rem;
-  min-height: 100vh;
+  min-height: max-content;
 }
 .OuterBox {
   display: flex;
@@ -337,7 +337,7 @@
 }
 .likedHeartBefore {
   color: #fff;
-  transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+  transition: transform 0.5s ease-in-out, color  ease-in-out;
   /* color: transparent; */
   /* border: 1px solid #fff; */
 }
@@ -987,14 +987,16 @@ a {
 
 @media (max-width: 802px) {
   .trContentDisplay {
-    grid-template-columns: repeat(auto-fit, minmax(237px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(237px, 1fr));
     gap: 10px;
   }
+
   /* .trUserName,.trUserDetail{
     font-weight: 800;
   } */
   .ProfileDiv,
-  .FilterDiv {
+  .FilterDiv,
+  .FilterDivMain {
     display: none;
   }
   .Hamburger {
@@ -1063,6 +1065,28 @@ a {
 @media (max-width: 503px) {
   .trContentDisplay {
     place-items: center;
+    gap: 26px;
+  }
+  .trCard{
+    width: 90%;
+    height: 460px;
+  }
+  .trCardImg{
+    height: 390px;
+  }
+  .trUserName{
+    font-size: 24px;
+  }
+  .trUserDetails{
+    font-size: 18px;
+    font-weight: 400;
+  }
+  .LikeButton{
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   .SubContainer {
     margin: 10px;

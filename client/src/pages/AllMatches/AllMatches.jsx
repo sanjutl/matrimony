@@ -804,7 +804,7 @@ function AllMatches() {
                         onClick={() => likedProfile(item._id)}
                       >
                         <HeartStraight
-                          size={20}
+                          size={40}
                           weight={liked[item._id] ? "fill" : "light"}
                           className={`${DashStyles.likedHeartBefore} ${
                             liked[item._id] ? DashStyles.likedHeart : ""

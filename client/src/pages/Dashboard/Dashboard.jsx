@@ -783,56 +783,56 @@ function Dashboard() {
               <div className={DashStyles.trContentDisplay}>
                 {topMatches && topMatches.length > 0 ? (
                   topMatches.map((item, index) => (
-                    // <div key={index} className={DashStyles.trCard}>
-                    //   <div
-                    //     className={DashStyles.trCardImg}
-                    //     onClick={() => profileView(item.id)}
-                    //   >
-                    //     <img
-                    //       src={
-                    //         item.profilePicture
-                    //           ? `${baseUrl}:8000${item.profilePicture}`
-                    //           : " "
-                    //       }
-                    //       alt=""
-                    //       className={DashStyles.cardImage}
-                    //     />
-                    //   </div>
-                    //   <div className={DashStyles.trCardDetails}>
-                    //     <div
-                    //       className={DashStyles.trCardDetailSub}
-                    //       onClick={() => profileView(item.id)}
-                    //     >
-                    //       <h5 className={DashStyles.trUserName}>{item.name}</h5>
-                    //       <h6 className={DashStyles.trUserDetails}>
-                    //         {item.age} Yrs ,{item.height}
-                    //       </h6>
-                    //     </div>
-                    //     <div
-                    //       className={DashStyles.LikeButton}
-                    //       onClick={() => likedProfile(item.id)}
-                    //     >
-                    //       <HeartStraight
-                    //         size={20}
-                    //         weight={liked[item.id] ? "fill" : "light"}
-                    //         className={`${DashStyles.likedHeartBefore} ${liked[item.id] ? DashStyles.likedHeart : ""
-                    //           }`}
-                    //       />
-                    //     </div>
-                    //   </div>
-                    // </div>
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.2, duration: 0.5 }}
-                    >
-                      <CardComponent profiles={item} profileView={profileView} likedProfile={likedProfile}
-                      liked={liked}
-                      setLiked={setLiked}
-                      toggleLike={toggleLike}
-                      />
-                    </motion.div>
+                    <div key={index} className={DashStyles.trCard}>
+                      <div
+                        className={DashStyles.trCardImg}
+                        onClick={() => profileView(item.id)}
+                      >
+                        <img
+                          src={
+                            item.profilePicture
+                              ? `${baseUrl}:8000${item.profilePicture}`
+                              : " "
+                          }
+                          alt=""
+                          className={DashStyles.cardImage}
+                        />
+                      </div>
+                      <div className={DashStyles.trCardDetails}>
+                        <div
+                          className={DashStyles.trCardDetailSub}
+                          onClick={() => profileView(item.id)}
+                        >
+                          <h5 className={DashStyles.trUserName}>{item.name}</h5>
+                          <h6 className={DashStyles.trUserDetails}>
+                            {item.age} Yrs ,{item.height}
+                          </h6>
+                        </div>
+                        <div
+                          className={DashStyles.LikeButton}
+                          onClick={() => likedProfile(item.id)}
+                        >
+                          <HeartStraight
+                            size={40}
+                            weight={liked[item.id] ? "fill" : "light"}
+                            className={`${DashStyles.likedHeartBefore} ${liked[item.id] ? DashStyles.likedHeart : ""
+                              }`}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    // <motion.div
+                    //   key={index}
+                    //   initial={{ opacity: 0, y: 20 }}
+                    //   animate={{ opacity: 1, y: 0 }}
+                    //   transition={{ delay: index * 0.2, duration: 0.5 }}
+                    // >
+                    //   <CardComponent profiles={item} profileView={profileView} likedProfile={likedProfile}
+                    //   liked={liked}
+                    //   setLiked={setLiked}
+                    //   toggleLike={toggleLike}
+                    //   />
+                    // </motion.div>
                   ))
                 ) : (
                   <p>No Top recommendations found</p>
@@ -889,7 +889,7 @@ function Dashboard() {
                           onClick={() => likedProfile(item._id)}
                         >
                           <HeartStraight
-                            size={20}
+                            size={40}
                             weight={
                               getLike[item._id] || liked[item._id]
                                 ? "fill"

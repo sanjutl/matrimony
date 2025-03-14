@@ -752,59 +752,59 @@ function TopRecommendation() {
             <div className={DashStyles.trContentDisplay}>
               {paginatedData.length > 0 ? (
                 paginatedData.map((item, index) => (
-                  // <div className={DashStyles.trCard} key={index}>
-                  //   <div
-                  //     className={DashStyles.trCardImg}
-                  //     onClick={() => profileView(item.id)}
-                  //   >
-                  //     <img
-                  //       src={
-                  //         item.profilePicture
-                  //           ? `${baseUrl}:8000${item.profilePicture}`
-                  //           : " "
-                  //       }
-                  //       alt="CardImage"
-                  //       className={DashStyles.cardImage}
-                  //     />
-                  //   </div>
-                  //   <div className={DashStyles.trCardDetails}>
-                  //     <div
-                  //       className={DashStyles.trCardDetailSub}
-                  //       onClick={() => profileView(item.id)}
-                  //     >
-                  //       <h5 className={DashStyles.trUserName}>
-                  //         {item.name}
-                  //       </h5>
-                  //       <h6 className={DashStyles.trUserDetails}>
-                  //         {`${item.age} Yrs, ${item.height}cms`}
-                  //       </h6>
-                  //     </div>
-                  //     <div
-                  //       className={DashStyles.LikeButton}
-                  //       onClick={() => likedProfile(item.id)}
-                  //     >
-                  //       <HeartStraight
-                  //         size={20}
-                  //         weight={liked[item.id] ? "fill" : "light"}
-                  //         className={`${DashStyles.likedHeartBefore} ${
-                  //           liked[item.id] ? DashStyles.likedHeart : ""
-                  //         }`}
-                  //       />
-                  //     </div>
-                  //   </div>
-                  // </div>
-                  <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.2, duration: 0.5 }}
+                  <div className={DashStyles.trCard} key={index}>
+                    <div
+                      className={DashStyles.trCardImg}
+                      onClick={() => profileView(item.id)}
                     >
-                      <CardComponent profiles={item} profileView={TopMatch} likedProfile={likedProfile}
-                      liked={liked}
-                      setLiked={setLiked}
-                      toggleLike={toggleLike}
+                      <img
+                        src={
+                          item.profilePicture
+                            ? `${baseUrl}:8000${item.profilePicture}`
+                            : " "
+                        }
+                        alt="CardImage"
+                        className={DashStyles.cardImage}
                       />
-                    </motion.div>
+                    </div>
+                    <div className={DashStyles.trCardDetails}>
+                      <div
+                        className={DashStyles.trCardDetailSub}
+                        onClick={() => profileView(item.id)}
+                      >
+                        <h5 className={DashStyles.trUserName}>
+                          {item.name}
+                        </h5>
+                        <h6 className={DashStyles.trUserDetails}>
+                          {`${item.age} Yrs, ${item.height}cms`}
+                        </h6>
+                      </div>
+                      <div
+                        className={DashStyles.LikeButton}
+                        onClick={() => likedProfile(item.id)}
+                      >
+                        <HeartStraight
+                          size={40}
+                          weight={liked[item.id] ? "fill" : "light"}
+                          className={`${DashStyles.likedHeartBefore} ${
+                            liked[item.id] ? DashStyles.likedHeart : ""
+                          }`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  // <motion.div
+                  //     key={index}
+                  //     initial={{ opacity: 0, y: 20 }}
+                  //     animate={{ opacity: 1, y: 0 }}
+                  //     transition={{ delay: index * 0.2, duration: 0.5 }}
+                  //   >
+                  //     <CardComponent profiles={item} profileView={TopMatch} likedProfile={likedProfile}
+                  //     liked={liked}
+                  //     setLiked={setLiked}
+                  //     toggleLike={toggleLike}
+                  //     />
+                  //   </motion.div>
                 ))
               ) : (
                 <p>No matches found</p>
