@@ -28,6 +28,21 @@
   gap: 10px;
   /* padding-top: 5rem; */
 }
+.trHeading h2{
+  font-size: 34px;
+}
+.adContainer{
+  width: 20%;
+  position: absolute;
+  background-color: red;
+  bottom: 0px;
+  right: 30px;
+  top:800px;
+  border-radius: 20px;
+}
+.trHeading h4{
+  font-size: 18px;
+}
 .SmallBox {
   background-color: #d9d9d9;
   width: 100%;
@@ -88,25 +103,25 @@
 }
 
 .Greeting {
-  font-size: 14px;
+  font-size: 16px;
   color: #666;
   margin-bottom: 5px;
 }
 
 .UserName {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   color: #222;
   margin-bottom: 5px;
 }
 
 .MemberId {
-  font-size: 14px;
+  font-size: 16px;
   color: #666;
 }
 
 .MembershipStatus {
-  font-size: 14px;
+  font-size: 16px;
   color: #666;
   margin-top: 10px;
 }
@@ -121,6 +136,15 @@
   cursor: pointer;
   font-weight: bold;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 16px;
+}
+.ProfileCompletion a{
+  font-size: 16px;
+  transition: all ease 0.5s;
+  
+}
+.ProfileCompletion a:hover{
+  color: #f0c040;
 }
 .UpgradeButton:hover {
   background-color: #f0c040;
@@ -173,13 +197,17 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  font-size: 13px;
+  font-size: 16px;
   /* padding: 5px; */
   /* gap: 10px; */
 }
 .link a {
   text-decoration: none;
   color: #333;
+  transition: all ease 0.5s;
+}
+.link a:hover{
+  color: #f0c040;
 }
 .Icon {
   display: flex;
@@ -221,6 +249,7 @@
 .TopRecommendation {
   /* border: 2px solid #666; */
   margin-top: 3rem;
+  position: relative;
 }
 .SeeAll {
   display: flex;
@@ -432,7 +461,7 @@
 .DropdownSecond {
   width: 100%;
   /* padding: 5px; */
-  font-size: 13px;
+  font-size: 16px;
   color: #333;
   /* border: 1px solid #ccc; */
   border-style: none;
@@ -441,6 +470,10 @@
   cursor: pointer;
   text-align: left;
   position: relative;
+  transition: all ease 0.5s;
+}
+.DropdownSecond:hover{
+  color: #f0c040;
 }
 .DropdownSecond::after {
   content: "";
@@ -478,6 +511,10 @@
 .HelpButton {
   cursor: pointer;
   width: 100%;
+  transition: all ease 0.5s;
+}
+.HelpButton:hover{
+  color: #f0c040;
 }
 /* Ham burger */
 .HamburgerMain {
@@ -627,7 +664,7 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 600;
   margin-top: 20px;
   color: #222;
@@ -638,6 +675,7 @@ a {
 }
 .heading {
   color: #222;
+  font-size: 24px;
 }
 .tabSelected {
   text-decoration: underline;

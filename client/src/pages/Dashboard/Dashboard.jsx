@@ -612,7 +612,7 @@ function Dashboard() {
                   </div>
                 </div>
                 <div className={DashStyles.ProfileCompletion}>
-                  <p style={{ fontWeight: "600", fontSize: "20px" }}>
+                  <p style={{ fontWeight: "600", fontSize:"20px" }}>
                     Complete your profile
                   </p>
                   <p style={{ fontSize: "10px" }}></p>
@@ -813,7 +813,7 @@ function Dashboard() {
                           onClick={() => likedProfile(item.id)}
                         >
                           <HeartStraight
-                            size={40}
+                            size={30}
                             weight={liked[item.id] ? "fill" : "light"}
                             className={`${DashStyles.likedHeartBefore} ${liked[item.id] ? DashStyles.likedHeart : ""
                               }`}
@@ -889,7 +889,7 @@ function Dashboard() {
                           onClick={() => likedProfile(item._id)}
                         >
                           <HeartStraight
-                            size={40}
+                            size={30}
                             weight={
                               getLike[item._id] || liked[item._id]
                                 ? "fill"
@@ -913,7 +913,7 @@ function Dashboard() {
                 <Link to={`/allmatches/${userId}`} className={DashStyles.seeAllLink}>
                   See All 
                 </Link></button>
-              </div>
+              </div>  
               
             </div>
             {/* All Matches end */}
