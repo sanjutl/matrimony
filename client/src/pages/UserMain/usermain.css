@@ -8,6 +8,8 @@
   box-sizing: border-box;
   overflow: hidden;
   padding-bottom: 50px;
+  background-image: url(../../assets/bg-pattern.jpg);
+
 }
 .profile-view-main-container .separator {
   border: 1px solid #cfcfcf;

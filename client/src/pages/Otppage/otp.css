@@ -2,12 +2,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: "Alkatra";
+  font-optical-sizing: auto;
 }
 .otp-container-main {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center;  
   min-height: 100vh;
   background: #f0f2f5;
 }

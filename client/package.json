@@ -14,7 +14,7 @@
     "axios": "^1.7.9",
     "bits": "^0.1.1",
     "cra-template": "1.2.0",
-    "framer-motion": "^12.4.1",
+    "framer-motion": "^12.5.0",
     "install": "^0.13.0",
     "npm": "^11.1.0",
     "pdf-lib": "^1.17.1",

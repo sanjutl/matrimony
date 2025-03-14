@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
+
 import DashStyles from "./dashboard.module.css";
 import {
   Pen,
@@ -25,6 +27,9 @@ import { clearUser } from "../../features/slice";
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import baseUrl from "../../baseUrl";
+import CardComponent from "../../component/CardCpmponent/CardComponent";
+
+
 
 
 function Dashboard() {
@@ -32,9 +37,6 @@ function Dashboard() {
   const userId = useSelector((state) => state.user.id);
   const token=useSelector((state) => state.user.token);
   const role=useSelector((state)=>state.user.role)
-  console.log("tokennnnn",token);
-  console.log("hey kitty", userId);
-  console.log("role",role)
   const navigate = useNavigate();
   const [liked, setLiked] = useState({});
   const [getLike, setGetLike] = useState([]);
@@ -61,6 +63,12 @@ function Dashboard() {
       autoClose: 3000,
       closeOnClick: true,
     });
+    const toggleLike = (id) => {
+      setLiked((prev) => ({
+        ...prev,
+        [id]: !prev[id], // Toggle the like state
+      }));
+    };
 
   // to fetch the liked users
   const getLikedProfiles = async () => {
@@ -68,7 +76,6 @@ function Dashboard() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/likedProfiles/${userId}`
       );
-      console.log("liked profiles:", response.data.likedUsers);
 
       // Convert the array into an object for easy lookups
       const likedProfilesMap = response.data.likedUsers.reduce((acc, user) => {
@@ -103,7 +110,6 @@ function Dashboard() {
         { likedId: id }
       );
 
-      console.log("Liked profile response:", response.data);
 
       // If successfully liked, refresh liked profiles
       getLikedProfiles();
@@ -124,7 +130,6 @@ function Dashboard() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${userId}`
       );
-      console.log("response", response.data.data);
       setUserProfile(response.data.data);
     } catch (error) {
       console.log("error", error);
@@ -139,7 +144,6 @@ function Dashboard() {
       let user = response.data.matches;
       const shuffledUsers = user.sort(() => 0.5 - Math.random()).slice(0, 5);
 
-      console.log("topMatch", response.data.matches);
       setTopMatches(shuffledUsers);
     } catch (error) {
       console.log("error", error);
@@ -154,7 +158,6 @@ function Dashboard() {
       let users = response.data.user;
 
       const shuffledUsers = users.sort(() => 0.5 - Math.random()).slice(0, 5);
-      console.log("all match", response.data.user);
       setAllMatches(shuffledUsers);
     } catch (error) {
       console.log("Error fetching all matches", error);
@@ -206,7 +209,6 @@ function Dashboard() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
-      console.log("single user data", response);
       navigate(`/mainuser/${id}`);
     } catch (error) {
       console.log("Error fetching the data", error);
@@ -246,7 +248,6 @@ function Dashboard() {
         `${baseUrl}:8000/api/v1/user/edit/${userId}`,
         formData
       );
-      console.log("Upload successful:", response);
     } catch (error) {
       console.log("Upload error:", error);
     } finally {
@@ -280,7 +281,6 @@ function Dashboard() {
         `${baseUrl}:8000/api/v1/user/edit/${userId}`,
         formData
       );
-      console.log("Upload successful:", response);
 
       // If upload is successful, show success notification
       if (response.status === 200) {
@@ -314,6 +314,7 @@ function Dashboard() {
       document.body.style.overflow = ""; // Cleanup when unmounting
     };
   }, [isOpen]);
+  
   
 
 
@@ -645,7 +646,6 @@ function Dashboard() {
                       <div
                         className={DashStyles.DropdownSecond}
                         onClick={() => {
-                          console.log("Dropdown toggled");
                           document
                             .querySelector(
                               `.${DashStyles.DropdownMenuSecondSmall}`
@@ -770,10 +770,7 @@ function Dashboard() {
             className={`${DashStyles.Container} ${isOpen ? DashStyles.contentDimmed : ""
               }`}
           >
-            <div className={DashStyles.OuterBox}>
-              <div className={DashStyles.SmallBox}></div>
-              <div className={DashStyles.BigBox}></div>
-            </div>
+            
 
             {/* Top recommendation start */}
             <div className={DashStyles.TopRecommendation}>
@@ -786,44 +783,56 @@ function Dashboard() {
               <div className={DashStyles.trContentDisplay}>
                 {topMatches && topMatches.length > 0 ? (
                   topMatches.map((item, index) => (
-                    <div key={index} className={DashStyles.trCard}>
-                      <div
-                        className={DashStyles.trCardImg}
-                        onClick={() => profileView(item.id)}
-                      >
-                        <img
-                          src={
-                            item.profilePicture
-                              ? `${baseUrl}:8000${item.profilePicture}`
-                              : " "
-                          }
-                          alt=""
-                          className={DashStyles.cardImage}
-                        />
-                      </div>
-                      <div className={DashStyles.trCardDetails}>
-                        <div
-                          className={DashStyles.trCardDetailSub}
-                          onClick={() => profileView(item.id)}
-                        >
-                          <h5 className={DashStyles.trUserName}>{item.name}</h5>
-                          <h6 className={DashStyles.trUserDetails}>
-                            {item.age} Yrs ,{item.height}
-                          </h6>
-                        </div>
-                        <div
-                          className={DashStyles.LikeButton}
-                          onClick={() => likedProfile(item.id)}
-                        >
-                          <HeartStraight
-                            size={20}
-                            weight={liked[item.id] ? "fill" : "light"}
-                            className={`${DashStyles.likedHeartBefore} ${liked[item.id] ? DashStyles.likedHeart : ""
-                              }`}
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    // <div key={index} className={DashStyles.trCard}>
+                    //   <div
+                    //     className={DashStyles.trCardImg}
+                    //     onClick={() => profileView(item.id)}
+                    //   >
+                    //     <img
+                    //       src={
+                    //         item.profilePicture
+                    //           ? `${baseUrl}:8000${item.profilePicture}`
+                    //           : " "
+                    //       }
+                    //       alt=""
+                    //       className={DashStyles.cardImage}
+                    //     />
+                    //   </div>
+                    //   <div className={DashStyles.trCardDetails}>
+                    //     <div
+                    //       className={DashStyles.trCardDetailSub}
+                    //       onClick={() => profileView(item.id)}
+                    //     >
+                    //       <h5 className={DashStyles.trUserName}>{item.name}</h5>
+                    //       <h6 className={DashStyles.trUserDetails}>
+                    //         {item.age} Yrs ,{item.height}
+                    //       </h6>
+                    //     </div>
+                    //     <div
+                    //       className={DashStyles.LikeButton}
+                    //       onClick={() => likedProfile(item.id)}
+                    //     >
+                    //       <HeartStraight
+                    //         size={20}
+                    //         weight={liked[item.id] ? "fill" : "light"}
+                    //         className={`${DashStyles.likedHeartBefore} ${liked[item.id] ? DashStyles.likedHeart : ""
+                    //           }`}
+                    //       />
+                    //     </div>
+                    //   </div>
+                    // </div>
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.2, duration: 0.5 }}
+                    >
+                      <CardComponent profiles={item} profileView={profileView} likedProfile={likedProfile}
+                      liked={liked}
+                      setLiked={setLiked}
+                      toggleLike={toggleLike}
+                      />
+                    </motion.div>
                   ))
                 ) : (
                   <p>No Top recommendations found</p>
@@ -831,9 +840,10 @@ function Dashboard() {
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-                <Link to={`/toprecommendations/${userId}`}>
-                  See All <span className={DashStyles.SpanArrow}>{">"}</span>
-                </Link>
+                <button className={DashStyles.seeAllButton}>
+                  <Link to={`/toprecommendations/${userId}`} className={DashStyles.seeAllLink}>
+                  See All 
+                </Link></button>
               </div>
             </div>
             {/* Top recommendation end */}
@@ -899,10 +909,12 @@ function Dashboard() {
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-                <Link to={`/allmatches/${userId}`}>
-                  See All <span className={DashStyles.SpanArrow}>{">"}</span>
-                </Link>
+                <button className={DashStyles.seeAllButton}>
+                <Link to={`/allmatches/${userId}`} className={DashStyles.seeAllLink}>
+                  See All 
+                </Link></button>
               </div>
+              
             </div>
             {/* All Matches end */}
 

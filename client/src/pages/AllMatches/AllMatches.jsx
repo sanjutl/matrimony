@@ -247,6 +247,7 @@ function AllMatches() {
 
       <div className={DashStyles.SubContainer}>
         {/* Filter div start */}
+        <div className={DashStyles.FilterDivMain}>
         <div className={DashStyles.FilterDiv}>
           <div className={DashStyles.FilterProfiles}>
             <h3 className={DashStyles.FilterProfilesHeading}>
@@ -521,6 +522,7 @@ function AllMatches() {
             </button>
           </div>
         </div>
+        </div>
         {/* filter div end */}
         {/* Profile details div for smalle screens start */}
         <div
@@ -759,9 +761,6 @@ function AllMatches() {
             isOpen ? DashStyles.contentDimmed : ""
           }`}
         >
-          <div className={DashStyles.OuterBox}>
-            <div className={DashStyles.BigBox}></div>
-          </div>
 
           {/*  start */}
           <div className={DashStyles.TopRecommendation}>

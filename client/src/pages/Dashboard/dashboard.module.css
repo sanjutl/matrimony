@@ -5,7 +5,10 @@
 .mainContainer {
   width: 100%;
   /* margin-left: 3rem; */
+  position: relative;
+  background-image: url(../../assets/bg-pattern.jpg);
 }
+
 .SubContainer {
   margin-left: 5rem;
   position: relative;
@@ -15,8 +18,7 @@
   width: 75%;
   /* border: 2px solid #666; */
   margin-top: 5rem;
-  
-  
+  min-height: 100vh;
 }
 .OuterBox {
   display: flex;
@@ -38,7 +40,7 @@
   height: 80px;
   border-radius: 10px;
 }
-.ProfileDiv{
+.ProfileDiv {
   width: 20%;
   /* background: aliceblue; */
   /* height:450px; */
@@ -224,6 +226,7 @@
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;
+  cursor: pointer;
 }
 .SeeAll a {
   text-decoration: none;
@@ -240,7 +243,7 @@
   gap: 15px;
   margin: 20px 0;
   /* place-items: center; */
-  grid-template-columns: repeat(auto-fit, minmax(238px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
 }
 /* .trContentDisplay {
   display: grid; 
@@ -252,19 +255,43 @@
 } */
 .TrContent {
   color: #535353;
+  padding-top: 10px;
 }
+.seeAllButton {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  transition: all ease 1s;
+}
+.seeAllButton:hover {
+  background-color: #f0c040;
+  color: white;
+}
+.seeAllLink {
+  transition: all ease 1s;
+}
+.seeAllButton:hover .seeAllLink {
+  color: white;
+}
+
 .trCard {
   border-radius: 10px;
   width: 236px;
   height: 398px;
   background-color: #f0c040;
   cursor: pointer;
-  overflow: hidden; 
+  overflow: hidden;
+  box-shadow: rgba(194, 133, 133, 0.6) 0px 4px 12px;
+  backdrop-filter: blur(3.4px);
+  transition: all ease 1s;
+  transform: scale(1);
 }
-
+.trCard:hover {
+  transform: scale(1.03);
+}
 .trCardImg {
   width: 100%;
-  height: 330px; 
+  height: 330px;
 }
 
 .cardImage {
@@ -277,7 +304,7 @@
 
 .trCardDetails {
   width: 100%;
-  height: 68px; 
+  height: 68px;
   background-color: #f0c040;
   border-radius: 10px;
   display: flex;
@@ -286,17 +313,17 @@
   padding: 10px;
 }
 
-  .trUserName {
-    color: #fff;
-    font-weight: 900;
-    padding-left: 10px;
-  }
-  .trUserDetails{
-    color: #fff;
-    font-weight: 700;
-    padding-left: 10px;
-
-  }
+.trUserName {
+  color: #fff;
+  font-weight: 600;
+  padding-left: 10px;
+  font-size: 15px;
+}
+.trUserDetails {
+  color: #fff;
+  font-weight: 700;
+  padding-left: 10px;
+}
 /* .trCardDetailSub{
      padding: 10px 0 0 10px; 
     
@@ -330,7 +357,7 @@
   display: grid;
   place-items: center;
   grid-template-columns: repeat(auto-fit, minmax(269px, 1fr));
-gap: 10px;
+  gap: 10px;
   margin: 20px 0 30px 0;
 }
 .preferenceContentCard {
@@ -443,7 +470,6 @@ gap: 10px;
 }
 .show {
   display: block;
-  
 }
 .DropdownItemSecond {
   padding: 5px;
@@ -459,7 +485,8 @@ gap: 10px;
   display: flex;
   justify-content: flex-end;
 }
-.Hamburger,.FilterHam {
+.Hamburger,
+.FilterHam {
   width: 70px;
   padding: 5px;
   display: flex;
@@ -529,19 +556,18 @@ gap: 10px;
   padding: 20px;
   transition: transform 0.7s ease-in-out, opacity 0.6s ease-in-out;
   opacity: 0;
-  overflow:hidden;
+  overflow: hidden;
   display: none;
   border-top-right-radius: 10px;
 }
 
 .drawerOpen {
-  left:  0;
+  left: 0;
   top: 0;
   display: block;
   opacity: 1;
   z-index: 20;
   background-color: #f0c040;
-
 }
 
 .drawerClosed {
@@ -555,24 +581,22 @@ gap: 10px;
   left: 0;
   width: 100%;
   height: 100vh;
-  background: rgba(27, 27, 27, 0.5); 
+  background: rgba(27, 27, 27, 0.5);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.7s ease-in-out;
   z-index: 10;
-   
 }
 
 .overlayActive {
   opacity: 1;
   visibility: visible;
   /* overflow-y: scroll; */
-  
 }
 
 /* Background content dimmed */
 .contentDimmed {
-  opacity: 0.2; 
+  opacity: 0.2;
   transition: opacity 0.7s ease-in-out;
   pointer-events: none;
   background-attachment: fixed;
@@ -580,7 +604,7 @@ gap: 10px;
 .DropdownMenuSecondSmall {
   display: none;
   position: absolute;
-  top: calc(70% + 10px) ;
+  top: calc(70% + 10px);
   left: 0;
   width: 100%;
   background-color: #f0c040;
@@ -593,11 +617,11 @@ gap: 10px;
   font-weight: 600;
   color: #666;
 }
-.show2{
+.show2 {
   display: block;
 }
 /* Styling for the Top Recommendation page */
-.PageSelection{
+.PageSelection {
   display: flex;
   width: 100%;
   justify-content: center;
@@ -608,114 +632,119 @@ gap: 10px;
   margin-top: 20px;
   color: #222;
 }
-a{
+a {
   text-decoration: none;
   cursor: pointer;
 }
-.heading{
+.heading {
   color: #222;
-  
 }
-.tabSelected{
+.tabSelected {
   text-decoration: underline;
   color: #f0c040;
 }
 /*/Styling for Filter Div */
-.FilterDiv{
-  width: 20%;
-  position: absolute;
-  top: 80px;
-  right: 30px;
+.FilterDiv {
+  width: 100%;
+  position: sticky;
+  top: 0px;
   border-radius: 10px;
   border: 2px solid #d9d9d9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   /* border: 2px solid black; */
+  border-radius: 20px;
 }
-.FilterProfiles{
+.FilterDivMain {
+  width: 20%;
+  position: absolute;
+  top: 140px;
+  right: 30px;
+  bottom: 0;
+}
+.FilterProfiles {
   padding: 10px;
   border-bottom: 2px solid #d9d9d9;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #f0c040;
+  color: white;
 }
-.FilterProfilesHeading{
-font-size: 15px;
+.FilterProfilesHeading {
+  font-size: 17px;
 }
-.BasicDetailsMainDiv,.ProfessionalDetailsMainDiv{
+.BasicDetailsMainDiv,
+.ProfessionalDetailsMainDiv {
   width: 100%;
   padding-left: 10px;
   border-bottom: 2px solid #d9d9d9;
- 
 }
-.BasicDetailsHead,.ProfessionalDetailsHead{
+.BasicDetailsHead,
+.ProfessionalDetailsHead {
   font-size: 13px;
   padding: 10px 0 10px 10px;
 }
-.BasicDetailsDiv,.ProfessionalDetailsDiv{
+.BasicDetailsDiv,
+.ProfessionalDetailsDiv {
   display: flex;
   flex-direction: column;
   row-gap: 15px;
-
-
 }
-.bdSelect,.pdSelect{
+.bdSelect,
+.pdSelect {
   width: 90%;
   padding: 5px;
   margin: auto;
   border: 2px solid #d9d9d9;
   border-radius: 6px;
 }
-.bdSelect:last-child,.pdSelect:last-child{
+.bdSelect:last-child,
+.pdSelect:last-child {
   margin-bottom: 20px;
 }
-.textBox{
+.textBox {
   padding-left: 5px;
 }
-.LocationDetailsMainDiv{
+.LocationDetailsMainDiv {
   display: flex;
   justify-content: space-between;
-padding: 10px 0 10px 0;
-
+  padding: 10px 0 10px 0;
 }
-.penIconDiv{
-  padding:10px 5px 0 0;
-
+.penIconDiv {
+  padding: 10px 5px 0 0;
 }
-.textBoxHead{
+.textBoxHead {
   font-size: 13px;
   padding: 5px 0;
-  
 }
-.textBoxPara,.textBoxSubPara{
+.textBoxPara,
+.textBoxSubPara {
   font-size: 11px;
   font-weight: 600;
   color: #666;
 }
-.FilterDivButtonsMain{
+.FilterDivButtonsMain {
   display: flex;
   width: 100%;
   padding: 10px;
   border: 2px solid #d9d9d9;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-radius: 20px;
   justify-content: space-between;
+  background-color: #f0c040;
 }
-.FilterDivButtonOne{
-  padding:5px 20px;
+.FilterDivButtonOne {
+  padding: 5px 20px;
   font-weight: 700;
-  color: #666;
+  color: white;
   background: transparent;
   border-style: none;
   cursor: pointer;
-
-
+  transition: all ease 1s;
+  font-size: 17px;
 }
-.FilterDivButtonOne:hover{
-  color: #f0c040;
+.FilterDivButtonOne:hover {
+  color: black;
 }
 /* @media (min-width:1240px) {
   .trContentDisplay{
@@ -922,7 +951,6 @@ padding: 10px 0 10px 0;
   }
 }
 
-
 @media (max-width: 1048px) {
   .SubContainer {
     margin: 50px;
@@ -931,47 +959,55 @@ padding: 10px 0 10px 0;
     width: 70%;
     /* border: 2px solid red; */
   }
-  .ProfileDiv,.FilterDiv {
-    width: 25%;
+  .ProfileDiv,
+  .FilterDiv {
+    width: 100%;
     right: 5px;
+  }
+  .FilterDivMain{
+    width: 30%;
+    right:-20px;
   }
   .LinkIcon {
     gap: 0;
     font-size: 12px;
   }
-  .BasicDetailsMainDiv,.ProfessionalDetailsMainDiv{
+  .BasicDetailsMainDiv,
+  .ProfessionalDetailsMainDiv {
     padding-left: 2px;
   }
-  .FilterIcon{
+  .FilterIcon {
     display: none;
   }
- 
 }
 
 @media (max-width: 802px) {
-
-  .trContentDisplay{
+  .trContentDisplay {
     grid-template-columns: repeat(auto-fit, minmax(237px, 1fr));
     gap: 10px;
-
-
   }
   /* .trUserName,.trUserDetail{
     font-weight: 800;
   } */
-  .ProfileDiv,.FilterDiv {
+  .ProfileDiv,
+  .FilterDiv {
     display: none;
   }
-  .Hamburger{
+  .Hamburger {
     right: -10px;
   }
-  .ham1,.ham2,.ham3{
+  .ham1,
+  .ham2,
+  .ham3 {
     height: 5px;
   }
-  .open1,.open2,.open3{
+  .open1,
+  .open2,
+  .open3 {
     height: 5px;
   }
-  .Hamburger,.FilterHam {
+  .Hamburger,
+  .FilterHam {
     display: flex;
     top: 5px;
   }
@@ -981,49 +1017,50 @@ padding: 10px 0 10px 0;
   .SubContainer {
     margin: 10px;
   }
-  .ExploreMatrimonyDiv{
+  .ExploreMatrimonyDiv {
     width: 100%;
-}
-.FilterProfiles{
-  background-color: #f0c040;
-}
-.FilterIcon{
-  display: block;
-}
-.FilterDivButtonsMain{
-  position: absolute;
-  bottom: 10px;
-  background-color: #f0c040;
-  width: 90%;
-  /* margin-right: 10px; */
-}
-.FilterDivButtonOne:hover{
-  color: #fff;
-}
-.drawer{
-  width: 70%;
-}
+  }
+  .FilterProfiles {
+    background-color: #f0c040;
+  }
+  .FilterIcon {
+    display: block;
+  }
+  .FilterDivButtonsMain {
+    position: absolute;
+    bottom: 10px;
+    background-color: #f0c040;
+    width: 90%;
+    /* margin-right: 10px; */
+  }
+  .FilterDivButtonOne:hover {
+    color: #fff;
+  }
+  .drawer {
+    width: 70%;
+  }
 
-.link{
-  gap: 20px;
-  font-size: 18px;
+  .link {
+    gap: 20px;
+    font-size: 18px;
+  }
+  .LinkIcon {
+    padding: 10px;
+    gap: 20px;
+    /* font-size: 30px;  */
+  }
+  .DropdownSecond,
+  .HelpButton {
+    gap: 20px;
+    font-size: 18px;
+    color: #333;
+  }
 }
-.LinkIcon{
-  padding: 10px;
-  gap: 20px;
-  /* font-size: 30px;  */
-}
-.DropdownSecond,.HelpButton{
-  gap: 20px;
-  font-size: 18px;
-  color: #333;
-}
-}
-@media (max-width:503px) {
-  .trContentDisplay{
+@media (max-width: 503px) {
+  .trContentDisplay {
     place-items: center;
   }
-  .SubContainer{
+  .SubContainer {
     margin: 10px;
   }
   .Hamburger {
@@ -1032,53 +1069,53 @@ padding: 10px 0 10px 0;
     z-index: 1000;
     padding: 2px;
     gap: 2px;
-    width:70px ;
+    width: 70px;
     /* background: #000; */
   }
-  .FilterHam{
+  .FilterHam {
     top: 10px;
     right: -40px;
     z-index: 1000;
     padding: 2px;
     gap: 2px;
-    width:70px ;
+    width: 70px;
   }
 
-  .ham1,.ham3{
+  .ham1,
+  .ham3 {
     width: 15px;
     height: 4px;
   }
-  .ham3{
+  .ham3 {
     left: 10px;
   }
-  .ham2{
+  .ham2 {
     width: 25px;
     height: 4px;
-
   }
-  .open2{
+  .open2 {
     display: none;
   }
-  .open1,.open3{
+  .open1,
+  .open3 {
     left: -5px;
     top: 10px;
     height: 5px;
-    width:30px;
+    width: 30px;
     /* padding: 10px; */
   }
-.drawer{
-width: 90%;
-/* padding: 10px; */
-}
-.ExploreContentIcons{
-  width: 95%;
-}
-.trHeading{
-  /* border: 2px solid black; */
-text-align: center;
-}
-.PdfModalContent{
-  width: 60%;
-}
-
+  .drawer {
+    width: 90%;
+    /* padding: 10px; */
+  }
+  .ExploreContentIcons {
+    width: 95%;
+  }
+  .trHeading {
+    /* border: 2px solid black; */
+    text-align: center;
+  }
+  .PdfModalContent {
+    width: 60%;
+  }
 }

@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { motion } from "framer-motion";
+
 import DashStyles from "../Dashboard/dashboard.module.css";
 import { HeartStraight, SlidersHorizontal, Pencil, X } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,6 +11,8 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import PaginationAdmin from "../Admin/components/PaginationAdmin";
 import baseUrl from "../../baseUrl";
+import CardComponent from "../../component/CardCpmponent/CardComponent";
+
 
 function TopRecommendation() {
   const dispatch = useDispatch();
@@ -36,6 +40,12 @@ function TopRecommendation() {
     annualIncome: "",
     education: "",
   });
+  const toggleLike = (id) => {
+    setLiked((prev) => ({
+      ...prev,
+      [id]: !prev[id], // Toggle the like state
+    }));
+  };
 
   // const lastIndex = currentPage * itemsPerPage;
   // const indexOfFirstItem = lastIndex - itemsPerPage;
@@ -51,7 +61,6 @@ function TopRecommendation() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/likedProfiles/${userId}`
       );
-      console.log("liked profiles:", response.data.likedUsers);
 
       // Convert the array into an object for easy lookups
       const likedProfilesMap = response.data.likedUsers.reduce((acc, user) => {
@@ -240,6 +249,8 @@ function TopRecommendation() {
 
       <div className={DashStyles.SubContainer}>
         {/* Filter div start */}
+        
+        <div className={DashStyles.FilterDivMain}>
         <div className={DashStyles.FilterDiv}>
           <div className={DashStyles.FilterProfiles}>
             <h3 className={DashStyles.FilterProfilesHeading}>
@@ -290,20 +301,7 @@ function TopRecommendation() {
                 <option value="Divorced">Divorced</option>
                 <option value="Awaiting Divorce">Awaiting Divorce</option>
               </select>
-              {/* <select name="motherTongue" className={DashStyles.bdSelect} onChange={handleFilterChange} value={filters.motherTongue}>
-                     <option >Mother Tongue</option>
-                     <option value="malayalam">Malayalam</option>
-                     <option value="english">English</option>
-                     <option value="hindi">Hindi</option>
-                   </select> */}
-
-              {/* <select name="physicalStatus" className={DashStyles.bdSelect}onChange={handleFilterChange} value={filters.physicalStatus}>
-                     <option >Physical Status</option>
-                     <option value="none">None</option>
-                     <option value="physicallyChallenged">
-                       Physically Challenged
-                     </option>
-                   </select> */}
+              
             </div>
           </div>
 
@@ -479,6 +477,7 @@ function TopRecommendation() {
               Reset
             </button>
           </div>
+        </div>
         </div>
         {/* filter div end */}
         {/* Profile details div for smalle screens start */}
@@ -740,9 +739,7 @@ function TopRecommendation() {
             isOpen ? DashStyles.contentDimmed : ""
           }`}
         >
-          <div className={DashStyles.OuterBox}>
-            <div className={DashStyles.BigBox}></div>
-          </div>
+          
 
           {/* Top recommendation start */}
           <div className={DashStyles.TopRecommendation}>
@@ -755,47 +752,59 @@ function TopRecommendation() {
             <div className={DashStyles.trContentDisplay}>
               {paginatedData.length > 0 ? (
                 paginatedData.map((item, index) => (
-                  <div className={DashStyles.trCard} key={index}>
-                    <div
-                      className={DashStyles.trCardImg}
-                      onClick={() => profileView(item.id)}
+                  // <div className={DashStyles.trCard} key={index}>
+                  //   <div
+                  //     className={DashStyles.trCardImg}
+                  //     onClick={() => profileView(item.id)}
+                  //   >
+                  //     <img
+                  //       src={
+                  //         item.profilePicture
+                  //           ? `${baseUrl}:8000${item.profilePicture}`
+                  //           : " "
+                  //       }
+                  //       alt="CardImage"
+                  //       className={DashStyles.cardImage}
+                  //     />
+                  //   </div>
+                  //   <div className={DashStyles.trCardDetails}>
+                  //     <div
+                  //       className={DashStyles.trCardDetailSub}
+                  //       onClick={() => profileView(item.id)}
+                  //     >
+                  //       <h5 className={DashStyles.trUserName}>
+                  //         {item.name}
+                  //       </h5>
+                  //       <h6 className={DashStyles.trUserDetails}>
+                  //         {`${item.age} Yrs, ${item.height}cms`}
+                  //       </h6>
+                  //     </div>
+                  //     <div
+                  //       className={DashStyles.LikeButton}
+                  //       onClick={() => likedProfile(item.id)}
+                  //     >
+                  //       <HeartStraight
+                  //         size={20}
+                  //         weight={liked[item.id] ? "fill" : "light"}
+                  //         className={`${DashStyles.likedHeartBefore} ${
+                  //           liked[item.id] ? DashStyles.likedHeart : ""
+                  //         }`}
+                  //       />
+                  //     </div>
+                  //   </div>
+                  // </div>
+                  <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.2, duration: 0.5 }}
                     >
-                      <img
-                        src={
-                          item.profilePicture
-                            ? `${baseUrl}:8000${item.profilePicture}`
-                            : " "
-                        }
-                        alt="CardImage"
-                        className={DashStyles.cardImage}
+                      <CardComponent profiles={item} profileView={TopMatch} likedProfile={likedProfile}
+                      liked={liked}
+                      setLiked={setLiked}
+                      toggleLike={toggleLike}
                       />
-                    </div>
-                    <div className={DashStyles.trCardDetails}>
-                      <div
-                        className={DashStyles.trCardDetailSub}
-                        onClick={() => profileView(item.id)}
-                      >
-                        <h5 className={DashStyles.trUserName}>
-                          {item.name}
-                        </h5>
-                        <h6 className={DashStyles.trUserDetails}>
-                          {`${item.age} Yrs, ${item.height}cms`}
-                        </h6>
-                      </div>
-                      <div
-                        className={DashStyles.LikeButton}
-                        onClick={() => likedProfile(item.id)}
-                      >
-                        <HeartStraight
-                          size={20}
-                          weight={liked[item.id] ? "fill" : "light"}
-                          className={`${DashStyles.likedHeartBefore} ${
-                            liked[item.id] ? DashStyles.likedHeart : ""
-                          }`}
-                        />
-                      </div>
-                    </div>
-                  </div>
+                    </motion.div>
                 ))
               ) : (
                 <p>No matches found</p>
