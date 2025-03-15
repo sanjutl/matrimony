@@ -1103,7 +1103,7 @@ a {
     opacity: 1;
   }
 }
-.ComingSoonBadge {
+/* .ComingSoonBadge {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -1119,12 +1119,8 @@ a {
   font-weight: bold;
   padding: 30px 40px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transform: rotate(-15deg);
   z-index: 1;
-  animation: pop 0.8s ease-out infinite;
-
-  /* Creative heart shape with a more elegant curvature */
-  clip-path: path("M75 35 C75 10, 110 0, 125 25 C140 50, 120 90, 75 120 C30 90, 10 50, 25 25 C40 0, 75 10, 75 35 Z");
+  clip-path:("M75 35 C75 10, 110 0, 125 28 C140 78, 82 90, 75 123 C70 95, 3 78, 23 25 C40 0, 75 10, 75 35 Z");
   width: 130px;
   height: 115px;
   padding: 25px 30px;
@@ -1132,8 +1128,44 @@ a {
   justify-content: center;
   align-items: center;
   text-align: center;
+} */
+
+.balloon {
+  width: 200px;
+  height: 250px;
+  background: red;
+  clip-path: path('M 100 5 C 50 5 5 50 5 100 C 5 150 50 195 100 195 C 150 195 195 150 195 100 C 195 50 150 5 100 5 Z M 100 195 L 80 245 L 120 245 Z');
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Balloon String */
+.balloon::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 100px;
+  background: black;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Reflection for a glossy effect */
+.balloon::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 30px;
+  background: white;
+  opacity: 0.3;
+  border-radius: 50%;
+  top: 20px;
+  left: 90px;
+}
 
 
 @keyframes pop {
@@ -1153,7 +1185,6 @@ a {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow-y: auto; /* Enable scrolling if content exceeds */
   margin-top: 1rem;
-  flex-grow: 1;
 }
 @media (max-width: 1048px) {
   .SubContainer {

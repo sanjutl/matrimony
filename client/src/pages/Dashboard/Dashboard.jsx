@@ -616,7 +616,7 @@ const setHeadingRef = (index) => (el) => {
       >
         <div className={DashStyles.AdImgDiv}>
         {ad.comingSoon && (
-            <div className={DashStyles.ComingSoonBadge}>
+            <div className="">
               Coming <br /> Soon
             </div>
           )}
