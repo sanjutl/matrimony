@@ -26,9 +26,7 @@
     padding: 20px;
     transition:  all ease 0.5s;
   }
-  .icon-button7:hover{
-    color: #f8cb58;
-  }
+
 
   .notification-alert{
     position:absolute;
@@ -106,7 +104,7 @@
     overflow-y: auto;
     width: 250px;
     z-index: 10;
-    top: 30px;
+    top: 60px;
     right: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 10px;
@@ -116,13 +114,20 @@
     padding: 10px;
     border-bottom: 1px solid #ddd;
     cursor: pointer;
+    transition: all ease 0.5s;
   }
   
   .notification-item:hover {
-    background-color: #f0f0f0;
+    background-color: white;
+    color: #f0c040;
   }
   .NavText{
     font-size: 18px;
+    transition: all ease 0.5s;
+    
+  }
+  .NavText:hover{
+    color: #f0c040;
   }
   .no-notifications {
     text-align: center;

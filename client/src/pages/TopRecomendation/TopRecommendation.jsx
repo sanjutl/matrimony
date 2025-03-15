@@ -784,7 +784,7 @@ function TopRecommendation() {
                         onClick={() => likedProfile(item.id)}
                       >
                         <HeartStraight
-                          size={40}
+                          size={30}
                           weight={liked[item.id] ? "fill" : "light"}
                           className={`${DashStyles.likedHeartBefore} ${
                             liked[item.id] ? DashStyles.likedHeart : ""

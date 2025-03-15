@@ -79,7 +79,6 @@ body {
   .landing-form-subheader {
     padding: 10px;
     margin: -20px;
-    margin-bottom: 20px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     text-align: center;
@@ -90,7 +89,7 @@ body {
     font-size: 1rem;
     color: #333;
     font-weight: bold;
-    margin-top: 20px;
+    margin-top: 10px;
   }
   
   
