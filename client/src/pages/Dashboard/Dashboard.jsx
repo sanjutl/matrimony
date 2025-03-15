@@ -24,19 +24,16 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { clearUser } from "../../features/slice";
-import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Avatar } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import baseUrl from "../../baseUrl";
 import CardComponent from "../../component/CardCpmponent/CardComponent";
-
-
-
 
 function Dashboard() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
-  const token=useSelector((state) => state.user.token);
-  const role=useSelector((state)=>state.user.role)
+  const token = useSelector((state) => state.user.token);
+  const role = useSelector((state) => state.user.role);
   const navigate = useNavigate();
   const [liked, setLiked] = useState({});
   const [getLike, setGetLike] = useState([]);
@@ -63,12 +60,12 @@ function Dashboard() {
       autoClose: 3000,
       closeOnClick: true,
     });
-    const toggleLike = (id) => {
-      setLiked((prev) => ({
-        ...prev,
-        [id]: !prev[id], // Toggle the like state
-      }));
-    };
+  const toggleLike = (id) => {
+    setLiked((prev) => ({
+      ...prev,
+      [id]: !prev[id], // Toggle the like state
+    }));
+  };
 
   // to fetch the liked users
   const getLikedProfiles = async () => {
@@ -109,7 +106,6 @@ function Dashboard() {
         `${baseUrl}:8000/api/v1/user/likeProfile/${userId}`,
         { likedId: id }
       );
-
 
       // If successfully liked, refresh liked profiles
       getLikedProfiles();
@@ -177,7 +173,7 @@ function Dashboard() {
         ...document.getElementsByClassName(DashStyles.ham2),
         ...document.getElementsByClassName(DashStyles.ham3),
       ];
-    
+
       elements.forEach((el) => {
         if (
           window.scrollY > 159 &&
@@ -191,8 +187,6 @@ function Dashboard() {
         }
       });
     };
-    
-    
 
     window.addEventListener("scroll", handleScrollHam);
     return () => {
@@ -309,14 +303,56 @@ function Dashboard() {
     } else {
       document.body.style.overflow = "";
     }
-  
+
     return () => {
       document.body.style.overflow = ""; // Cleanup when unmounting
     };
   }, [isOpen]);
-  
-  
 
+  const myRef = useRef([]); 
+const observerRef = useRef(null); // ✅ Ensure it's null initially
+const headingRef = useRef([]); // ✅ Separate ref for heading
+
+useEffect(() => {
+  if (!observerRef.current) {
+    observerRef.current = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add(DashStyles.animateIn);
+        }
+      });
+    });
+  }
+
+  // ✅ Ensure only unique elements are observed
+  headingRef.current.forEach((el) => {
+    if (el && observerRef.current) observerRef.current.observe(el);
+  });
+
+  myRef.current.forEach((el) => {
+    if (el && observerRef.current) observerRef.current.observe(el);
+  });
+
+  return () => {
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
+  };
+}, []);
+
+const setElementRef = (index) => (el) => {
+  if (el) {
+    myRef.current[index] = el;
+    if (observerRef.current) observerRef.current.observe(el);
+  }
+};
+
+const setHeadingRef = (index) => (el) => {
+  if (el) {
+    headingRef.current[index] = el;
+    if (observerRef.current) observerRef.current.observe(el);
+  }
+};
 
   return (
     <div>
@@ -528,7 +564,7 @@ function Dashboard() {
           {/* Profile details div for small screens start */}
           <div
             className={isOpen ? "overlay overlayActive" : "overlay"}
-          // onClick={toggleMenu}
+            // onClick={toggleMenu}
           >
             <div className={DashStyles.HamburgerMain}>
               {/* {showHamburger&&( */}
@@ -537,23 +573,27 @@ function Dashboard() {
                 onClick={() => toggleMenu()}
               >
                 <div
-                  className={`${DashStyles.ham1} ${isOpen ? DashStyles.open1 : ""
-                    }`}
+                  className={`${DashStyles.ham1} ${
+                    isOpen ? DashStyles.open1 : ""
+                  }`}
                 ></div>
                 <div
-                  className={`${DashStyles.ham2} ${isOpen ? DashStyles.open2 : ""
-                    }`}
+                  className={`${DashStyles.ham2} ${
+                    isOpen ? DashStyles.open2 : ""
+                  }`}
                 ></div>
                 <div
-                  className={`${DashStyles.ham3} ${isOpen ? DashStyles.open3 : ""
-                    }`}
+                  className={`${DashStyles.ham3} ${
+                    isOpen ? DashStyles.open3 : ""
+                  }`}
                 ></div>
               </div>
               {/* )} */}
               {/* profile div for smaller screens */}
               <div
-                className={`${DashStyles.drawer} ${isOpen ? DashStyles.drawerOpen : DashStyles.drawerClosed
-                  }`}
+                className={`${DashStyles.drawer} ${
+                  isOpen ? DashStyles.drawerOpen : DashStyles.drawerClosed
+                }`}
               >
                 <div className={DashStyles.ProfileCard}>
                   <div
@@ -612,7 +652,7 @@ function Dashboard() {
                   </div>
                 </div>
                 <div className={DashStyles.ProfileCompletion}>
-                  <p style={{ fontWeight: "600", fontSize:"20px" }}>
+                  <p style={{ fontWeight: "600", fontSize: "20px" }}>
                     Complete your profile
                   </p>
                   <p style={{ fontSize: "10px" }}></p>
@@ -767,14 +807,13 @@ function Dashboard() {
           </div>
 
           <div
-            className={`${DashStyles.Container} ${isOpen ? DashStyles.contentDimmed : ""
-              }`}
+            className={`${DashStyles.Container} ${
+              isOpen ? DashStyles.contentDimmed : ""
+            }`}
           >
-            
-
             {/* Top recommendation start */}
             <div className={DashStyles.TopRecommendation}>
-              <div className={DashStyles.trHeading}>
+              <div className={DashStyles.trHeading} ref={setHeadingRef(0)}>
                 <h2 className={DashStyles.TrHead}>Top Recommendations</h2>
                 <h4 className={DashStyles.TrContent}>
                   Members who match your partner preference
@@ -783,7 +822,7 @@ function Dashboard() {
               <div className={DashStyles.trContentDisplay}>
                 {topMatches && topMatches.length > 0 ? (
                   topMatches.map((item, index) => (
-                    <div key={index} className={DashStyles.trCard}>
+                    <div key={index} className={DashStyles.trCard} ref={(el) => setElementRef(-1)(el)}>
                       <div
                         className={DashStyles.trCardImg}
                         onClick={() => profileView(item.id)}
@@ -815,8 +854,9 @@ function Dashboard() {
                           <HeartStraight
                             size={30}
                             weight={liked[item.id] ? "fill" : "light"}
-                            className={`${DashStyles.likedHeartBefore} ${liked[item.id] ? DashStyles.likedHeart : ""
-                              }`}
+                            className={`${DashStyles.likedHeartBefore} ${
+                              liked[item.id] ? DashStyles.likedHeart : ""
+                            }`}
                           />
                         </div>
                       </div>
@@ -840,10 +880,14 @@ function Dashboard() {
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-                <button className={DashStyles.seeAllButton}>
-                  <Link to={`/toprecommendations/${userId}`} className={DashStyles.seeAllLink}>
-                  See All 
-                </Link></button>
+                <button className={DashStyles.seeAllButton} ref={setHeadingRef(1)}>
+                  <Link
+                    to={`/toprecommendations/${userId}`}
+                    className={DashStyles.seeAllLink}
+                  >
+                    See All
+                  </Link>
+                </button>
               </div>
             </div>
             {/* Top recommendation end */}
@@ -856,7 +900,7 @@ function Dashboard() {
               <div className={DashStyles.trContentDisplay}>
                 {allMatches && allMatches.length > 0 ? (
                   allMatches.map((item, index) => (
-                    <div key={index} className={DashStyles.trCard}>
+                    <div key={index} className={DashStyles.trCard} ref={(el) => setElementRef(index)(el)}>
                       <div
                         className={DashStyles.trCardImg}
                         onClick={() => profileView(item._id)}
@@ -909,12 +953,15 @@ function Dashboard() {
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-                <button className={DashStyles.seeAllButton}>
-                <Link to={`/allmatches/${userId}`} className={DashStyles.seeAllLink}>
-                  See All 
-                </Link></button>
-              </div>  
-              
+                <button className={DashStyles.seeAllButton} ref={setHeadingRef(2  )}>
+                  <Link
+                    to={`/allmatches/${userId}`}
+                    className={DashStyles.seeAllLink}
+                  >
+                    See All
+                  </Link>
+                </button>
+              </div>
             </div>
             {/* All Matches end */}
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import DashStyles from "../Dashboard/dashboard.module.css";
 import { HeartStraight, SlidersHorizontal, Pencil, X } from "phosphor-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -220,6 +220,49 @@ function AllMatches() {
       console.log("Error fetching the data", error);
     }
   };
+  const myRef = useRef([]);
+    const observerRef = useRef(null); // ✅ Ensure it's null initially
+    const headingRef = useRef([]); 
+  useEffect(() => {
+      if (!observerRef.current) {
+        observerRef.current = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add(DashStyles.animateIn);
+            }
+          });
+        });
+      }
+  
+      // ✅ Ensure only unique elements are observed
+      headingRef.current.forEach((el) => {
+        if (el && observerRef.current) observerRef.current.observe(el);
+      });
+  
+      myRef.current.forEach((el) => {
+        if (el && observerRef.current) observerRef.current.observe(el);
+      });
+  
+      return () => {
+        if (observerRef.current) {
+          observerRef.current.disconnect();
+        }
+      };
+    }, []);
+  
+    const setElementRef = (index) => (el) => {
+      if (el) {
+        myRef.current[index] = el;
+        if (observerRef.current) observerRef.current.observe(el);
+      }
+    };
+  
+    const setHeadingRef = (index) => (el) => {
+      if (el) {
+        headingRef.current[index] = el;
+        if (observerRef.current) observerRef.current.observe(el);
+      }
+    };
   return (
     <div className={DashStyles.mainContainer}>
       <Nav userId={userId} />
@@ -772,7 +815,7 @@ function AllMatches() {
             <div className={DashStyles.trContentDisplay}>
               {paginatedData.length > 0 ? (
                 paginatedData.map((item, index) => (
-                  <div className={DashStyles.trCard} key={index}>
+                  <div className={DashStyles.trCard} key={index} ref={(el) => setElementRef(-1)(el)}>
                     <div
                       className={DashStyles.trCardImg}
                       onClick={() => profileView(item._id)}

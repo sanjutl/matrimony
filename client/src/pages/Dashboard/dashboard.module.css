@@ -28,6 +28,11 @@
   gap: 10px;
   /* padding-top: 5rem; */
 }
+.trHeading{
+  opacity: 0;
+  transform: translateX(-100px);
+  transition: all ease 1s;
+}
 .trHeading h2{
   font-size: 34px;
 }
@@ -248,7 +253,6 @@
   } */
 .TopRecommendation {
   /* border: 2px solid #666; */
-  margin-top: 3rem;
   position: relative;
 }
 .SeeAll {
@@ -256,7 +260,9 @@
   justify-content: flex-end;
   margin-top: 1rem;
   cursor: pointer;
+  
 }
+
 .SeeAll a {
   text-decoration: none;
   font-size: 14px;
@@ -291,6 +297,8 @@
   border-radius: 10px;
   border: none;
   transition: all ease 1s;
+  opacity: 0;
+  transform: translateX(-300px);
 }
 .seeAllButton:hover {
   background-color: #f0c040;
@@ -314,6 +322,8 @@
   backdrop-filter: blur(3.4px);
   transition: all ease 1s;
   transform: scale(1);
+  transform: translateY(100px);
+  opacity: 0;
 }
 .trCard:hover {
   transform: scale(1.03);
@@ -676,6 +686,12 @@ a {
 .heading {
   color: #222;
   font-size: 24px;
+}
+.animateIn{
+  opacity: 1;
+  transform: translateY(0px);
+  transform: translateX(0px);
+
 }
 .tabSelected {
   text-decoration: underline;

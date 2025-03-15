@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useRef} from "react";
 import { motion } from "framer-motion";
 
 import DashStyles from "../Dashboard/dashboard.module.css";
@@ -13,11 +13,9 @@ import PaginationAdmin from "../Admin/components/PaginationAdmin";
 import baseUrl from "../../baseUrl";
 import CardComponent from "../../component/CardCpmponent/CardComponent";
 
-
 function TopRecommendation() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
-  console.log("hey kitty", userId);
   const [getLike, setGetLike] = useState([]);
   const [liked, setLiked] = useState({});
   const [isOpen, setIsOpen] = useState(false);
@@ -94,8 +92,6 @@ function TopRecommendation() {
         { likedId: id }
       );
 
-      console.log("Liked profile response:", response.data);
-
       // If successfully liked, refresh liked profiles
       getLikedProfiles();
     } catch (error) {
@@ -111,25 +107,27 @@ function TopRecommendation() {
   };
 
   useEffect(() => {
-     const handleScrollHam = () => {
-       const filterIcons = document.querySelectorAll(`[class*="${DashStyles.FilterIcon}"]`);
-       filterIcons.forEach((el) => {
-         if (
-           window.scrollY > 10 &&
-           !el.classList.contains(DashStyles.FilterCloseIcon)
-         ) {
-           el.style.display = "none";
-         } else {
-           el.style.display = "block";
-         }
-       });
-     };
-   
-     window.addEventListener("scroll", handleScrollHam);
-     return () => {
-       window.removeEventListener("scroll", handleScrollHam);
-     };
-   }, []);
+    const handleScrollHam = () => {
+      const filterIcons = document.querySelectorAll(
+        `[class*="${DashStyles.FilterIcon}"]`
+      );
+      filterIcons.forEach((el) => {
+        if (
+          window.scrollY > 10 &&
+          !el.classList.contains(DashStyles.FilterCloseIcon)
+        ) {
+          el.style.display = "none";
+        } else {
+          el.style.display = "block";
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScrollHam);
+    return () => {
+      window.removeEventListener("scroll", handleScrollHam);
+    };
+  }, []);
 
   const TopMatch = async () => {
     try {
@@ -137,7 +135,6 @@ function TopRecommendation() {
         `${baseUrl}:8000/api/v1/user/topmatch/${userId}`
       );
 
-      console.log("topMatch123", response.data.matches);
       setTopMatches(response.data.matches);
     } catch (error) {
       console.log("error", error);
@@ -189,8 +186,7 @@ function TopRecommendation() {
     setCurrentPage(1);
     setFilteredMatches(filteredData);
     setFiltersApplied(isFiltersApplied);
-    if(isOpen)setIsOpen(false);
-
+    if (isOpen) setIsOpen(false);
   };
 
   const resetFilters = () => {
@@ -216,15 +212,58 @@ function TopRecommendation() {
       const response = await axios.get(
         `${baseUrl}:8000/api/v1/user/usercarddetails/${id}`
       );
-      console.log("single user data", response);
       navigate(`/mainuser/${id}`);
     } catch (error) {
       console.log("Error fetching the data", error);
     }
   };
+  const myRef = useRef([]);
+  const observerRef = useRef(null); // ✅ Ensure it's null initially
+  const headingRef = useRef([]); // ✅ Separate ref for heading
+
+  useEffect(() => {
+    if (!observerRef.current) {
+      observerRef.current = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add(DashStyles.animateIn);
+          }
+        });
+      });
+    }
+
+    // ✅ Ensure only unique elements are observed
+    headingRef.current.forEach((el) => {
+      if (el && observerRef.current) observerRef.current.observe(el);
+    });
+
+    myRef.current.forEach((el) => {
+      if (el && observerRef.current) observerRef.current.observe(el);
+    });
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, []);
+
+  const setElementRef = (index) => (el) => {
+    if (el) {
+      myRef.current[index] = el;
+      if (observerRef.current) observerRef.current.observe(el);
+    }
+  };
+
+  const setHeadingRef = (index) => (el) => {
+    if (el) {
+      headingRef.current[index] = el;
+      if (observerRef.current) observerRef.current.observe(el);
+    }
+  };
   return (
     <div className={DashStyles.mainContainer}>
-      <Nav userId={userId}/>
+      <Nav userId={userId} />
       <div className={DashStyles.PageSelection}>
         <Link
           to={`/toprecommendations/${userId}`}
@@ -249,235 +288,218 @@ function TopRecommendation() {
 
       <div className={DashStyles.SubContainer}>
         {/* Filter div start */}
-        
+
         <div className={DashStyles.FilterDivMain}>
-        <div className={DashStyles.FilterDiv}>
-          <div className={DashStyles.FilterProfiles}>
-            <h3 className={DashStyles.FilterProfilesHeading}>
-              Filter Profiles
-            </h3>
-          </div>
-          <div className={DashStyles.BasicDetailsMainDiv}>
-            <h3 className={DashStyles.BasicDetailsHead}>Basic Details</h3>
-            <div className={DashStyles.BasicDetailsDiv}>
-              <select
-                name="age"
-                className={DashStyles.bdSelect}
-                onChange={handleFilterChange}
-                value={filters.age}
-              >
-                <option>Age</option>
-                <option value="18-25">18-25</option>
-                <option value="26-35">26-35</option>
-                <option value="36-45">36-45</option>
-                <option value="46-55">46-55</option>
-                <option value="56-65">56-65</option>
-              </select>
-              <select
-                name="height"
-                className={DashStyles.bdSelect}
-                onChange={handleFilterChange}
-                value={filters.height}
-              >
-                <option>Height</option>
-                <option value="135-145">135-145</option>
-                <option value="145-155">145-155</option>
-                <option value="155-165">155-165</option>
-                <option value="165-175">165-175</option>
-                <option value="175-185">175-185</option>
-                <option value="185-195">185-195</option>
-                <option value="195-200">195-200</option>
-              </select>
+          <div className={DashStyles.FilterDiv}>
+            <div className={DashStyles.FilterProfiles}>
+              <h3 className={DashStyles.FilterProfilesHeading}>
+                Filter Profiles
+              </h3>
+            </div>
+            <div className={DashStyles.BasicDetailsMainDiv}>
+              <h3 className={DashStyles.BasicDetailsHead}>Basic Details</h3>
+              <div className={DashStyles.BasicDetailsDiv}>
+                <select
+                  name="age"
+                  className={DashStyles.bdSelect}
+                  onChange={handleFilterChange}
+                  value={filters.age}
+                >
+                  <option>Age</option>
+                  <option value="18-25">18-25</option>
+                  <option value="26-35">26-35</option>
+                  <option value="36-45">36-45</option>
+                  <option value="46-55">46-55</option>
+                  <option value="56-65">56-65</option>
+                </select>
+                <select
+                  name="height"
+                  className={DashStyles.bdSelect}
+                  onChange={handleFilterChange}
+                  value={filters.height}
+                >
+                  <option>Height</option>
+                  <option value="135-145">135-145</option>
+                  <option value="145-155">145-155</option>
+                  <option value="155-165">155-165</option>
+                  <option value="165-175">165-175</option>
+                  <option value="175-185">175-185</option>
+                  <option value="185-195">185-195</option>
+                  <option value="195-200">195-200</option>
+                </select>
 
-              <select
-                name="maritalStatus"
-                className={DashStyles.bdSelect}
-                onChange={handleFilterChange}
-                value={filters.maritalStatus}
+                <select
+                  name="maritalStatus"
+                  className={DashStyles.bdSelect}
+                  onChange={handleFilterChange}
+                  value={filters.maritalStatus}
+                >
+                  <option>Marital Status</option>
+                  <option value="Never Married">Never Married</option>
+                  <option value="Widowed">Widowed</option>
+                  <option value="Divorced">Divorced</option>
+                  <option value="Awaiting Divorce">Awaiting Divorce</option>
+                </select>
+              </div>
+            </div>
+
+            <div className={DashStyles.ProfessionalDetailsMainDiv}>
+              <h3 className={DashStyles.ProfessionalDetailsHead}>
+                Professional Details
+              </h3>
+              <div className={DashStyles.ProfessionalDetailsDiv}>
+                <select
+                  name="occupation"
+                  className={DashStyles.pdSelect}
+                  onChange={handleFilterChange}
+                  value={filters.occupation}
+                >
+                  <option>Occupation</option>
+                  <option value="Doctor">Doctor</option>
+                  <option value="Nurse">Nurse</option>
+                  <option value="Pharmacist">Pharmacist</option>
+                  <option value="Dentist">Dentist</option>
+                  <option value="Paramedic">Paramedic</option>
+                  <option value="Physiotherapist">Physiotherapist</option>
+                  <option value="Care Worker">Care Worker</option>
+
+                  <option value="Software Engineer">Software Engineer</option>
+                  <option value="Civil Engineer">Civil Engineer</option>
+                  <option value="Mechanical Engineer">
+                    Mechanical Engineer
+                  </option>
+                  <option value="Electrical Engineer">
+                    Electrical Engineer
+                  </option>
+                  <option value="Data Scientist">Data Scientist</option>
+                  <option value="It Consultant">IT Consultant</option>
+
+                  <option value="Teacher">Teacher</option>
+                  <option value="Lecturer">University Lecturer</option>
+                  <option value="Teaching Assistant">Teaching Assistant</option>
+
+                  <option value="Accountant">Accountant</option>
+                  <option value="Banker">Banker</option>
+                  <option value="Financial Analyst">Financial Analyst</option>
+                  <option value="Solicitor">Solicitor</option>
+                  <option value="Barrister">Barrister</option>
+
+                  <option value="Electrician">Electrician</option>
+                  <option value="Plumber">Plumber</option>
+                  <option value="Carpenter">Carpenter</option>
+                  <option value="Mechanic">Mechanic</option>
+
+                  <option value="Police Officer">Police Officer</option>
+                  <option value="Firefighter">Firefighter</option>
+                  <option value="Armed Forces">Armed Forces</option>
+                  <option value="Social Worker">Social Worker</option>
+
+                  <option value="Chef">Chef</option>
+                  <option value="Hotel Manager">Hotel Manager</option>
+                  <option value="Retail Manager">Retail Manager</option>
+                  <option value="Customer Service">
+                    Customer Service Representative
+                  </option>
+
+                  <option value="Journalist">Journalist</option>
+                  <option value="Graphic Designer">Graphic Designer</option>
+                  <option value="Actor">Actor</option>
+                  <option value="Musician">Musician</option>
+
+                  <option value="Truck Driver">Truck Driver</option>
+                  <option value="Delivery Driver">Delivery Driver</option>
+                  <option value="Airline Pilot">Airline Pilot</option>
+
+                  <option value="Self Employed">Self-Employed</option>
+                  <option value="Unemployed">Unemployed</option>
+                  <option value="Student">Student</option>
+                  <option value="Retired">Retired</option>
+                  <option value="Others">Others</option>
+                </select>
+
+                <select
+                  name="annualIncome"
+                  className={DashStyles.pdSelect}
+                  onChange={handleFilterChange}
+                  value={filters.annualIncome}
+                >
+                  <option>Annual Income</option>
+                  <option value="under_15000">Under £15,000</option>
+                  <option value="15000_25000">£15,000 - £25,000</option>
+                  <option value="25000_35000">£25,000 - £35,000</option>
+                  <option value="35000_50000">£35,000 - £50,000</option>
+                  <option value="50000_75000">£50,000 - £75,000</option>
+                  <option value="75000_100000">£75,000 - £100,000</option>
+                  <option value="100000_150000">£100,000 - £150,000</option>
+                  <option value="150000_250000">£150,000 - £250,000</option>
+                  <option value="over_250000">Over £250,000</option>
+                </select>
+
+                <select
+                  name="education"
+                  className={DashStyles.pdSelect}
+                  onChange={handleFilterChange}
+                  value={filters.education}
+                >
+                  <option>Education</option>
+                  <option value="Below 10">Below 10th</option>
+                  <option value="10th">10th (SSLC/Matriculation)</option>
+                  <option value="12th Science">12th - Science</option>
+                  <option value="12th Humanities">12th - Humanities</option>
+                  <option value="12th Commerce">12th - Commerce</option>
+                  <option value="Diploma">Diploma</option>
+                  <option value="BSc">BSc (Bachelor of Science)</option>
+                  <option value="BA">BA (Bachelor of Arts)</option>
+                  <option value="BCom">BCom (Bachelor of Commerce)</option>
+                  <option value="BTech">BTech (Bachelor of Technology)</option>
+                  <option value="BE">BE (Bachelor of Engineering)</option>
+                  <option value="BBA">
+                    BBA (Bachelor of Business Administration)
+                  </option>
+                  <option value="BCA">
+                    BCA (Bachelor of Computer Applications)
+                  </option>
+                  <option value="LLB">LLB (Bachelor of Law)</option>
+                  <option value="MBBS">
+                    MBBS (Bachelor of Medicine & Surgery)
+                  </option>
+                  <option value="BPharm">BPharm (Bachelor of Pharmacy)</option>
+                  <option value="BDS">BDS (Bachelor of Dental Surgery)</option>
+                  <option value="MSC">MSc (Master of Science)</option>
+                  <option value="MA">MA (Master of Arts)</option>
+                  <option value="MCom">MCom (Master of Commerce)</option>
+                  <option value="MTech">MTech (Master of Technology)</option>
+                  <option value="ME">ME (Master of Engineering)</option>
+                  <option value="MBA">
+                    MBA (Master of Business Administration)
+                  </option>
+                  <option value="MCA">
+                    MCA (Master of Computer Applications)
+                  </option>
+                  <option value="LLM">LLM (Master of Law)</option>
+                  <option value="MD">MD (Doctor of Medicine)</option>
+                  <option value="MS">MS (Master of Surgery)</option>
+                  <option value="MPhil">MPhil (Master of Philosophy)</option>
+                  <option value="PhD">PhD (Doctorate)</option>
+                </select>
+              </div>
+            </div>
+
+            <div className={DashStyles.FilterDivButtonsMain}>
+              <button
+                className={DashStyles.FilterDivButtonOne}
+                onClick={applyFilters}
               >
-                <option>Marital Status</option>
-                <option value="Never Married">Never Married</option>
-                <option value="Widowed">Widowed</option>
-                <option value="Divorced">Divorced</option>
-                <option value="Awaiting Divorce">Awaiting Divorce</option>
-              </select>
-              
+                Apply
+              </button>
+              <button
+                className={DashStyles.FilterDivButtonOne}
+                onClick={resetFilters}
+              >
+                Reset
+              </button>
             </div>
           </div>
-
-          <div className={DashStyles.ProfessionalDetailsMainDiv}>
-            <h3 className={DashStyles.ProfessionalDetailsHead}>
-              Professional Details
-            </h3>
-            <div className={DashStyles.ProfessionalDetailsDiv}>
-              <select
-                name="occupation"
-                className={DashStyles.pdSelect}
-                onChange={handleFilterChange}
-                value={filters.occupation}
-              >
-                <option>Occupation</option>
-                <option value="Doctor">Doctor</option>
-                      <option value="Nurse">Nurse</option>
-                      <option value="Pharmacist">Pharmacist</option>
-                      <option value="Dentist">Dentist</option>
-                      <option value="Paramedic">Paramedic</option>
-                      <option value="Physiotherapist">Physiotherapist</option>
-                      <option value="Care Worker">Care Worker</option>
-
-                      <option value="Software Engineer">
-                        Software Engineer
-                      </option>
-                      <option value="Civil Engineer">Civil Engineer</option>
-                      <option value="Mechanical Engineer">
-                        Mechanical Engineer
-                      </option>
-                      <option value="Electrical Engineer">
-                        Electrical Engineer
-                      </option>
-                      <option value="Data Scientist">Data Scientist</option>
-                      <option value="It Consultant">IT Consultant</option>
-
-                      <option value="Teacher">Teacher</option>
-                      <option value="Lecturer">University Lecturer</option>
-                      <option value="Teaching Assistant">
-                        Teaching Assistant
-                      </option>
-
-                      <option value="Accountant">Accountant</option>
-                      <option value="Banker">Banker</option>
-                      <option value="Financial Analyst">
-                        Financial Analyst
-                      </option>
-                      <option value="Solicitor">Solicitor</option>
-                      <option value="Barrister">Barrister</option>
-
-                      <option value="Electrician">Electrician</option>
-                      <option value="Plumber">Plumber</option>
-                      <option value="Carpenter">Carpenter</option>
-                      <option value="Mechanic">Mechanic</option>
-
-                      <option value="Police Officer">Police Officer</option>
-                      <option value="Firefighter">Firefighter</option>
-                      <option value="Armed Forces">Armed Forces</option>
-                      <option value="Social Worker">Social Worker</option>
-
-                      <option value="Chef">Chef</option>
-                      <option value="Hotel Manager">Hotel Manager</option>
-                      <option value="Retail Manager">Retail Manager</option>
-                      <option value="Customer Service">
-                        Customer Service Representative
-                      </option>
-
-                      <option value="Journalist">Journalist</option>
-                      <option value="Graphic Designer">Graphic Designer</option>
-                      <option value="Actor">Actor</option>
-                      <option value="Musician">Musician</option>
-
-                      <option value="Truck Driver">Truck Driver</option>
-                      <option value="Delivery Driver">Delivery Driver</option>
-                      <option value="Airline Pilot">Airline Pilot</option>
-
-                      <option value="Self Employed">Self-Employed</option>
-                      <option value="Unemployed">Unemployed</option>
-                      <option value="Student">Student</option>
-                      <option value="Retired">Retired</option>
-                      <option value="Others">Others</option>
-              </select>
-
-              <select
-                name="annualIncome"
-                className={DashStyles.pdSelect}
-                onChange={handleFilterChange}
-                value={filters.annualIncome}
-              >
-                <option>Annual Income</option>
-                <option value="under_15000">Under £15,000</option>
-                <option value="15000_25000">£15,000 - £25,000</option>
-                <option value="25000_35000">£25,000 - £35,000</option>
-                <option value="35000_50000">£35,000 - £50,000</option>
-                <option value="50000_75000">£50,000 - £75,000</option>
-                <option value="75000_100000">£75,000 - £100,000</option>
-                <option value="100000_150000">£100,000 - £150,000</option>
-                <option value="150000_250000">£150,000 - £250,000</option>
-                <option value="over_250000">Over £250,000</option>
-              </select>
-
-              <select
-                name="education"
-                className={DashStyles.pdSelect}
-                onChange={handleFilterChange}
-                value={filters.education}
-              >
-                <option>Education</option>
-                <option value="Below 10">Below 10th</option>
-                      <option value="10th">10th (SSLC/Matriculation)</option>
-                      <option value="12th Science">12th - Science</option>
-                      <option value="12th Humanities">12th - Humanities</option>
-                      <option value="12th Commerce">12th - Commerce</option>
-                      <option value="Diploma">Diploma</option>
-                      <option value="BSc">BSc (Bachelor of Science)</option>
-                      <option value="BA">BA (Bachelor of Arts)</option>
-                      <option value="BCom">BCom (Bachelor of Commerce)</option>
-                      <option value="BTech">
-                        BTech (Bachelor of Technology)
-                      </option>
-                      <option value="BE">BE (Bachelor of Engineering)</option>
-                      <option value="BBA">
-                        BBA (Bachelor of Business Administration)
-                      </option>
-                      <option value="BCA">
-                        BCA (Bachelor of Computer Applications)
-                      </option>
-                      <option value="LLB">LLB (Bachelor of Law)</option>
-                      <option value="MBBS">
-                        MBBS (Bachelor of Medicine & Surgery)
-                      </option>
-                      <option value="BPharm">
-                        BPharm (Bachelor of Pharmacy)
-                      </option>
-                      <option value="BDS">
-                        BDS (Bachelor of Dental Surgery)
-                      </option>
-                      <option value="MSC">MSc (Master of Science)</option>
-                      <option value="MA">MA (Master of Arts)</option>
-                      <option value="MCom">MCom (Master of Commerce)</option>
-                      <option value="MTech">
-                        MTech (Master of Technology)
-                      </option>
-                      <option value="ME">ME (Master of Engineering)</option>
-                      <option value="MBA">
-                        MBA (Master of Business Administration)
-                      </option>
-                      <option value="MCA">
-                        MCA (Master of Computer Applications)
-                      </option>
-                      <option value="LLM">LLM (Master of Law)</option>
-                      <option value="MD">MD (Doctor of Medicine)</option>
-                      <option value="MS">MS (Master of Surgery)</option>
-                      <option value="MPhil">
-                        MPhil (Master of Philosophy)
-                      </option>
-                      <option value="PhD">PhD (Doctorate)</option>
-              </select>
-            </div>
-          </div>
-
-          <div className={DashStyles.FilterDivButtonsMain}>
-            <button
-              className={DashStyles.FilterDivButtonOne}
-              onClick={applyFilters}
-            >
-              Apply
-            </button>
-            <button
-              className={DashStyles.FilterDivButtonOne}
-              onClick={resetFilters}
-            >
-              Reset
-            </button>
-          </div>
-        </div>
         </div>
         {/* filter div end */}
         {/* Profile details div for smalle screens start */}
@@ -575,71 +597,67 @@ function TopRecommendation() {
                   >
                     <option>Occupation</option>
                     <option value="Doctor">Doctor</option>
-                      <option value="Nurse">Nurse</option>
-                      <option value="Pharmacist">Pharmacist</option>
-                      <option value="Dentist">Dentist</option>
-                      <option value="Paramedic">Paramedic</option>
-                      <option value="Physiotherapist">Physiotherapist</option>
-                      <option value="Care Worker">Care Worker</option>
+                    <option value="Nurse">Nurse</option>
+                    <option value="Pharmacist">Pharmacist</option>
+                    <option value="Dentist">Dentist</option>
+                    <option value="Paramedic">Paramedic</option>
+                    <option value="Physiotherapist">Physiotherapist</option>
+                    <option value="Care Worker">Care Worker</option>
 
-                      <option value="Software Engineer">
-                        Software Engineer
-                      </option>
-                      <option value="Civil Engineer">Civil Engineer</option>
-                      <option value="Mechanical Engineer">
-                        Mechanical Engineer
-                      </option>
-                      <option value="Electrical Engineer">
-                        Electrical Engineer
-                      </option>
-                      <option value="Data Scientist">Data Scientist</option>
-                      <option value="It Consultant">IT Consultant</option>
+                    <option value="Software Engineer">Software Engineer</option>
+                    <option value="Civil Engineer">Civil Engineer</option>
+                    <option value="Mechanical Engineer">
+                      Mechanical Engineer
+                    </option>
+                    <option value="Electrical Engineer">
+                      Electrical Engineer
+                    </option>
+                    <option value="Data Scientist">Data Scientist</option>
+                    <option value="It Consultant">IT Consultant</option>
 
-                      <option value="Teacher">Teacher</option>
-                      <option value="Lecturer">University Lecturer</option>
-                      <option value="Teaching Assistant">
-                        Teaching Assistant
-                      </option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Lecturer">University Lecturer</option>
+                    <option value="Teaching Assistant">
+                      Teaching Assistant
+                    </option>
 
-                      <option value="Accountant">Accountant</option>
-                      <option value="Banker">Banker</option>
-                      <option value="Financial Analyst">
-                        Financial Analyst
-                      </option>
-                      <option value="Solicitor">Solicitor</option>
-                      <option value="Barrister">Barrister</option>
+                    <option value="Accountant">Accountant</option>
+                    <option value="Banker">Banker</option>
+                    <option value="Financial Analyst">Financial Analyst</option>
+                    <option value="Solicitor">Solicitor</option>
+                    <option value="Barrister">Barrister</option>
 
-                      <option value="Electrician">Electrician</option>
-                      <option value="Plumber">Plumber</option>
-                      <option value="Carpenter">Carpenter</option>
-                      <option value="Mechanic">Mechanic</option>
+                    <option value="Electrician">Electrician</option>
+                    <option value="Plumber">Plumber</option>
+                    <option value="Carpenter">Carpenter</option>
+                    <option value="Mechanic">Mechanic</option>
 
-                      <option value="Police Officer">Police Officer</option>
-                      <option value="Firefighter">Firefighter</option>
-                      <option value="Armed Forces">Armed Forces</option>
-                      <option value="Social Worker">Social Worker</option>
+                    <option value="Police Officer">Police Officer</option>
+                    <option value="Firefighter">Firefighter</option>
+                    <option value="Armed Forces">Armed Forces</option>
+                    <option value="Social Worker">Social Worker</option>
 
-                      <option value="Chef">Chef</option>
-                      <option value="Hotel Manager">Hotel Manager</option>
-                      <option value="Retail Manager">Retail Manager</option>
-                      <option value="Customer Service">
-                        Customer Service Representative
-                      </option>
+                    <option value="Chef">Chef</option>
+                    <option value="Hotel Manager">Hotel Manager</option>
+                    <option value="Retail Manager">Retail Manager</option>
+                    <option value="Customer Service">
+                      Customer Service Representative
+                    </option>
 
-                      <option value="Journalist">Journalist</option>
-                      <option value="Graphic Designer">Graphic Designer</option>
-                      <option value="Actor">Actor</option>
-                      <option value="Musician">Musician</option>
+                    <option value="Journalist">Journalist</option>
+                    <option value="Graphic Designer">Graphic Designer</option>
+                    <option value="Actor">Actor</option>
+                    <option value="Musician">Musician</option>
 
-                      <option value="Truck Driver">Truck Driver</option>
-                      <option value="Delivery Driver">Delivery Driver</option>
-                      <option value="Airline Pilot">Airline Pilot</option>
+                    <option value="Truck Driver">Truck Driver</option>
+                    <option value="Delivery Driver">Delivery Driver</option>
+                    <option value="Airline Pilot">Airline Pilot</option>
 
-                      <option value="Self Employed">Self-Employed</option>
-                      <option value="Unemployed">Unemployed</option>
-                      <option value="Student">Student</option>
-                      <option value="Retired">Retired</option>
-                      <option value="Others">Others</option>
+                    <option value="Self Employed">Self-Employed</option>
+                    <option value="Unemployed">Unemployed</option>
+                    <option value="Student">Student</option>
+                    <option value="Retired">Retired</option>
+                    <option value="Others">Others</option>
                   </select>
                   <select
                     name="annualIncome"
@@ -665,54 +683,50 @@ function TopRecommendation() {
                   >
                     <option>Education</option>
                     <option value="Below 10">Below 10th</option>
-                      <option value="10th">10th (SSLC/Matriculation)</option>
-                      <option value="12th Science">12th - Science</option>
-                      <option value="12th Humanities">12th - Humanities</option>
-                      <option value="12th Commerce">12th - Commerce</option>
-                      <option value="Diploma">Diploma</option>
-                      <option value="BSc">BSc (Bachelor of Science)</option>
-                      <option value="BA">BA (Bachelor of Arts)</option>
-                      <option value="BCom">BCom (Bachelor of Commerce)</option>
-                      <option value="BTech">
-                        BTech (Bachelor of Technology)
-                      </option>
-                      <option value="BE">BE (Bachelor of Engineering)</option>
-                      <option value="BBA">
-                        BBA (Bachelor of Business Administration)
-                      </option>
-                      <option value="BCA">
-                        BCA (Bachelor of Computer Applications)
-                      </option>
-                      <option value="LLB">LLB (Bachelor of Law)</option>
-                      <option value="MBBS">
-                        MBBS (Bachelor of Medicine & Surgery)
-                      </option>
-                      <option value="BPharm">
-                        BPharm (Bachelor of Pharmacy)
-                      </option>
-                      <option value="BDS">
-                        BDS (Bachelor of Dental Surgery)
-                      </option>
-                      <option value="MSC">MSc (Master of Science)</option>
-                      <option value="MA">MA (Master of Arts)</option>
-                      <option value="MCom">MCom (Master of Commerce)</option>
-                      <option value="MTech">
-                        MTech (Master of Technology)
-                      </option>
-                      <option value="ME">ME (Master of Engineering)</option>
-                      <option value="MBA">
-                        MBA (Master of Business Administration)
-                      </option>
-                      <option value="MCA">
-                        MCA (Master of Computer Applications)
-                      </option>
-                      <option value="LLM">LLM (Master of Law)</option>
-                      <option value="MD">MD (Doctor of Medicine)</option>
-                      <option value="MS">MS (Master of Surgery)</option>
-                      <option value="MPhil">
-                        MPhil (Master of Philosophy)
-                      </option>
-                      <option value="PhD">PhD (Doctorate)</option>
+                    <option value="10th">10th (SSLC/Matriculation)</option>
+                    <option value="12th Science">12th - Science</option>
+                    <option value="12th Humanities">12th - Humanities</option>
+                    <option value="12th Commerce">12th - Commerce</option>
+                    <option value="Diploma">Diploma</option>
+                    <option value="BSc">BSc (Bachelor of Science)</option>
+                    <option value="BA">BA (Bachelor of Arts)</option>
+                    <option value="BCom">BCom (Bachelor of Commerce)</option>
+                    <option value="BTech">
+                      BTech (Bachelor of Technology)
+                    </option>
+                    <option value="BE">BE (Bachelor of Engineering)</option>
+                    <option value="BBA">
+                      BBA (Bachelor of Business Administration)
+                    </option>
+                    <option value="BCA">
+                      BCA (Bachelor of Computer Applications)
+                    </option>
+                    <option value="LLB">LLB (Bachelor of Law)</option>
+                    <option value="MBBS">
+                      MBBS (Bachelor of Medicine & Surgery)
+                    </option>
+                    <option value="BPharm">
+                      BPharm (Bachelor of Pharmacy)
+                    </option>
+                    <option value="BDS">
+                      BDS (Bachelor of Dental Surgery)
+                    </option>
+                    <option value="MSC">MSc (Master of Science)</option>
+                    <option value="MA">MA (Master of Arts)</option>
+                    <option value="MCom">MCom (Master of Commerce)</option>
+                    <option value="MTech">MTech (Master of Technology)</option>
+                    <option value="ME">ME (Master of Engineering)</option>
+                    <option value="MBA">
+                      MBA (Master of Business Administration)
+                    </option>
+                    <option value="MCA">
+                      MCA (Master of Computer Applications)
+                    </option>
+                    <option value="LLM">LLM (Master of Law)</option>
+                    <option value="MD">MD (Doctor of Medicine)</option>
+                    <option value="MS">MS (Master of Surgery)</option>
+                    <option value="MPhil">MPhil (Master of Philosophy)</option>
+                    <option value="PhD">PhD (Doctorate)</option>
                   </select>
                 </div>
               </div>
@@ -739,8 +753,6 @@ function TopRecommendation() {
             isOpen ? DashStyles.contentDimmed : ""
           }`}
         >
-          
-
           {/* Top recommendation start */}
           <div className={DashStyles.TopRecommendation}>
             <div className={DashStyles.trHeading}>
@@ -752,7 +764,7 @@ function TopRecommendation() {
             <div className={DashStyles.trContentDisplay}>
               {paginatedData.length > 0 ? (
                 paginatedData.map((item, index) => (
-                  <div className={DashStyles.trCard} key={index}>
+                  <div className={DashStyles.trCard} key={index} ref={(el) => setElementRef(-1)(el)}>
                     <div
                       className={DashStyles.trCardImg}
                       onClick={() => profileView(item.id)}
@@ -772,9 +784,7 @@ function TopRecommendation() {
                         className={DashStyles.trCardDetailSub}
                         onClick={() => profileView(item.id)}
                       >
-                        <h5 className={DashStyles.trUserName}>
-                          {item.name}
-                        </h5>
+                        <h5 className={DashStyles.trUserName}>{item.name}</h5>
                         <h6 className={DashStyles.trUserDetails}>
                           {`${item.age} Yrs, ${item.height}cms`}
                         </h6>
