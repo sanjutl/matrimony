@@ -24,19 +24,16 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { clearUser } from "../../features/slice";
-import { Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Avatar } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import baseUrl from "../../baseUrl";
 import CardComponent from "../../component/CardCpmponent/CardComponent";
-
-
-
 
 function Dashboard() {
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
-  const token=useSelector((state) => state.user.token);
-  const role=useSelector((state)=>state.user.role)
+  const token = useSelector((state) => state.user.token);
+  const role = useSelector((state) => state.user.role);
   const navigate = useNavigate();
   const [liked, setLiked] = useState({});
   const [getLike, setGetLike] = useState([]);
@@ -63,12 +60,12 @@ function Dashboard() {
       autoClose: 3000,
       closeOnClick: true,
     });
-    const toggleLike = (id) => {
-      setLiked((prev) => ({
-        ...prev,
-        [id]: !prev[id], // Toggle the like state
-      }));
-    };
+  const toggleLike = (id) => {
+    setLiked((prev) => ({
+      ...prev,
+      [id]: !prev[id], // Toggle the like state
+    }));
+  };
 
   // to fetch the liked users
   const getLikedProfiles = async () => {
@@ -109,7 +106,6 @@ function Dashboard() {
         `${baseUrl}:8000/api/v1/user/likeProfile/${userId}`,
         { likedId: id }
       );
-
 
       // If successfully liked, refresh liked profiles
       getLikedProfiles();
@@ -177,7 +173,7 @@ function Dashboard() {
         ...document.getElementsByClassName(DashStyles.ham2),
         ...document.getElementsByClassName(DashStyles.ham3),
       ];
-    
+
       elements.forEach((el) => {
         if (
           window.scrollY > 159 &&
@@ -191,8 +187,6 @@ function Dashboard() {
         }
       });
     };
-    
-    
 
     window.addEventListener("scroll", handleScrollHam);
     return () => {
@@ -309,15 +303,32 @@ function Dashboard() {
     } else {
       document.body.style.overflow = "";
     }
-  
+
     return () => {
       document.body.style.overflow = ""; // Cleanup when unmounting
     };
   }, [isOpen]);
+  const adsData = [
+    { title: 'Silver', description: '3 month plan', price: '₹4,500', discount: '10% OFF', comingSoon: true },
+    { title: 'Gold', description: '3 month plan', price: '₹4,300', discount: '12% OFF', comingSoon: true },
+    { title: 'Platinum', description: '6 month plan', price: '₹6,500', discount: '', comingSoon: true },
+  ];
   
-  
+  const getHeaderClass = (title) => {
+    if (title === 'Silver') return DashStyles.silverHeader;
+    if (title === 'Gold') return  DashStyles.goldHeader;
+    if (title === 'Platinum') return  DashStyles.platinumHeader;
+    return '';
+  };
+  const [currentAdIndex, setCurrentAdIndex] = useState(0);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentAdIndex((prevIndex) => (prevIndex + 1) % adsData.length);
+    }, 5000); 
 
+    return () => clearInterval(interval);
+  }, []);
   return (
     <div>
       {/* <ToastContainer position="bottom-right" /> */}
@@ -325,210 +336,269 @@ function Dashboard() {
         <Nav userId={userId} />
         <div className={DashStyles.SubContainer}>
           {/* static details div for larger screens  starts*/}
-          <div className={DashStyles.ProfileDiv}>
-            <div className={DashStyles.ProfileCard}>
-              <div
-                className={DashStyles.ProfileImage}
-                onClick={() => fileInputRef.current.click()}
-                style={{ cursor: "pointer" }}
-              >
-                <Avatar size={80} icon={<UserOutlined />} />
-              </div>
-              <input
-                type="file"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-                accept="image/*"
-              />
-              {showModal && (
-                <div className={DashStyles.modal}>
-                  <div className={DashStyles.modalContent}>
-                    <h3>Preview</h3>
-                    <img
-                      src={preview}
-                      alt="Selected Preview"
-                      style={{
-                        objectFit: "cover",
-                        borderRadius: "10px",
-                        width: "236px",
-                        height: "398px",
-                        backgroundColor: " #f0c040",
-                        cursor: "pointer",
-                        overflow: "hidden",
-                      }}
-                    />
-                    <div className={DashStyles.modalButtons}>
-                      <button onClick={handleUpload}>Yes</button>
-                      <button onClick={() => setShowModal(false)}>No</button>
+          <div className={DashStyles.sideBar}>
+            <div className={DashStyles.ProfileDiv}>
+              <div className={DashStyles.ProfileCard}>
+                <div
+                  className={DashStyles.ProfileImage}
+                  onClick={() => fileInputRef.current.click()}
+                  style={{ cursor: "pointer" }}
+                >
+                  <Avatar size={80} icon={<UserOutlined />} />
+                </div>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                  accept="image/*"
+                />
+                {showModal && (
+                  <div className={DashStyles.modal}>
+                    <div className={DashStyles.modalContent}>
+                      <h3>Preview</h3>
+                      <img
+                        src={preview}
+                        alt="Selected Preview"
+                        style={{
+                          objectFit: "cover",
+                          borderRadius: "10px",
+                          width: "236px",
+                          height: "398px",
+                          backgroundColor: " #f0c040",
+                          cursor: "pointer",
+                          overflow: "hidden",
+                        }}
+                      />
+                      <div className={DashStyles.modalButtons}>
+                        <button onClick={handleUpload}>Yes</button>
+                        <button onClick={() => setShowModal(false)}>No</button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-              <div className={DashStyles.ProfileDetails}>
-                <p className={DashStyles.Greeting}>{greeting}</p>
-                <h2 className={DashStyles.UserName}>{userProfie.firstName}</h2>
-                {/* <p className={DashStyles.UserId}>Sanju@007</p> */}
-                <p className={DashStyles.MemberId}>{userProfie.userId}</p>
-                <p className={DashStyles.MembershipStatus}>Membership: Free</p>
-                <button className={DashStyles.UpgradeButton}>Upgrade</button>
-              </div>
-            </div>
-            <div className={DashStyles.ProfileCompletion}>
-              <p style={{ fontWeight: "600", fontSize: "14px" }}>
-                Complete your profile
-              </p>
-              {/* <p style={{ fontSize: "10px" }}>Your Profile Strength: 30%</p> */}
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <Pen
-                    size={20}
-                    weight="duotone"
-                    className={DashStyles.penIcon}
-                  />
-                </div>
-                <div className={DashStyles.link}>
-                  <Link to="/formpage1">Edit Profile</Link>
+                )}
+                <div className={DashStyles.ProfileDetails}>
+                  <p className={DashStyles.Greeting}>{greeting}</p>
+                  <h2 className={DashStyles.UserName}>
+                    {userProfie.firstName}
+                  </h2>
+                  {/* <p className={DashStyles.UserId}>Sanju@007</p> */}
+                  <p className={DashStyles.MemberId}>{userProfie.userId}</p>
+                  <p className={DashStyles.MembershipStatus}>
+                    Membership: Free
+                  </p>
+                  <button className={DashStyles.UpgradeButton}>Upgrade</button>
                 </div>
               </div>
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <Heart size={20} weight="duotone" />
+              <div className={DashStyles.ProfileCompletion}>
+                <p style={{ fontWeight: "600", fontSize: "14px" }}>
+                  Complete your profile
+                </p>
+                {/* <p style={{ fontSize: "10px" }}>Your Profile Strength: 30%</p> */}
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <Pen
+                      size={20}
+                      weight="duotone"
+                      className={DashStyles.penIcon}
+                    />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <Link to="/formpage1">Edit Profile</Link>
+                  </div>
                 </div>
-                <div className={DashStyles.link}>
-                  <Link to={`/likedprofiles/${userId}`}>Liked Profiles</Link>
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <Heart size={20} weight="duotone" />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <Link to={`/likedprofiles/${userId}`}>Liked Profiles</Link>
+                  </div>
                 </div>
-              </div>
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <User size={20} weight="duotone" />
-                </div>
-                <div className={DashStyles.link}>
-                  <div
-                    className={DashStyles.DropdownSecond}
-                    onClick={() =>
-                      document
-                        .querySelector(`.${DashStyles.DropdownMenuSecond}`)
-                        .classList.toggle(DashStyles.show)
-                    }
-                  >
-                    Profile Verification
-                    <div className={DashStyles.DropdownMenuSecond}>
-                      <div
-                        className={DashStyles.DropdownItemSecond}
-                        onClick={() =>
-                          document.getElementById("fileUpload").click()
-                        }
-                      >
-                        Upload document
-                        <input
-                          type="file"
-                          id="fileUpload"
-                          onChange={handlePdfChange}
-                          accept="application/pdf"
-                          style={{ display: "none" }}
-                          ref={pdfInputRef}
-                        />
-                      </div>
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <User size={20} weight="duotone" />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <div
+                      className={DashStyles.DropdownSecond}
+                      onClick={() =>
+                        document
+                          .querySelector(`.${DashStyles.DropdownMenuSecond}`)
+                          .classList.toggle(DashStyles.show)
+                      }
+                    >
+                      Profile Verification
+                      <div className={DashStyles.DropdownMenuSecond}>
+                        <div
+                          className={DashStyles.DropdownItemSecond}
+                          onClick={() =>
+                            document.getElementById("fileUpload").click()
+                          }
+                        >
+                          Upload document
+                          <input
+                            type="file"
+                            id="fileUpload"
+                            onChange={handlePdfChange}
+                            accept="application/pdf"
+                            style={{ display: "none" }}
+                            ref={pdfInputRef}
+                          />
+                        </div>
 
-                      {pdfModal && (
-                        <div className={DashStyles.PdfModalOverlay}>
-                          <div className={DashStyles.PdfModalContent}>
-                            <h3>Document Upload</h3>
-                            {preview ? (
-                              <p className={DashStyles.FileName}>
-                                Selected File: {pdfFile.name}
-                              </p>
-                            ) : (
-                              <p>No file selected</p>
-                            )}
+                        {pdfModal && (
+                          <div className={DashStyles.PdfModalOverlay}>
+                            <div className={DashStyles.PdfModalContent}>
+                              <h3>Document Upload</h3>
+                              {preview ? (
+                                <p className={DashStyles.FileName}>
+                                  Selected File: {pdfFile.name}
+                                </p>
+                              ) : (
+                                <p>No file selected</p>
+                              )}
 
-                            <div className={DashStyles.PdfModalActions}>
-                              <button
-                                onClick={handlePdfUpload}
-                                className={DashStyles.PdfYesButton}
-                              >
-                                Confirm
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setPdfModal(false);
-                                  setPdfFile(null);
-                                  setPreview(null);
-                                }}
-                                className={DashStyles.PdfNoButton}
-                              >
-                                Cancel
-                              </button>
+                              <div className={DashStyles.PdfModalActions}>
+                                <button
+                                  onClick={handlePdfUpload}
+                                  className={DashStyles.PdfYesButton}
+                                >
+                                  Confirm
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setPdfModal(false);
+                                    setPdfFile(null);
+                                    setPreview(null);
+                                  }}
+                                  className={DashStyles.PdfNoButton}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className={DashStyles.SettingsMain}>
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <Gear size={20} weight="duotone" />
+              <div className={DashStyles.SettingsMain}>
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <Gear size={20} weight="duotone" />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <Link to={`/Usettings/${userId}`}>Settings</Link>
+                  </div>
                 </div>
-                <div className={DashStyles.link}>
-                  <Link to={`/Usettings/${userId}`}>Settings</Link>
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <Question size={20} weight="duotone" />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <div
+                      className={DashStyles.HelpButton}
+                      onClick={() =>
+                        window.open(
+                          "https://mail.google.com/mail/?view=cm&fs=1&to=support@example.com&su=Help%20Request",
+                          "_blank"
+                        )
+                      }
+                    >
+                      Help
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <Question size={20} weight="duotone" />
+
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <ShieldCheck size={20} weight="duotone" />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <Link to={`/myprofile/${userId}`}>My Profile</Link>
+                  </div>
                 </div>
-                <div className={DashStyles.link}>
-                  <div
-                    className={DashStyles.HelpButton}
-                    onClick={() =>
-                      window.open(
-                        "https://mail.google.com/mail/?view=cm&fs=1&to=support@example.com&su=Help%20Request",
-                        "_blank"
-                      )
-                    }
-                  >
-                    Help
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <SignOut size={20} weight="duotone" />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <Link
+                      to="/"
+                      onClick={() => {
+                        dispatch(clearUser());
+                        navigate("/");
+                      }}
+                    >
+                      Logout
+                    </Link>
                   </div>
                 </div>
               </div>
+            </div>
+            {/* <div className={DashStyles.Adsplacement}> */}
+            {/* <div className={DashStyles.adsContent}>
+                <h3>Ezhava Matrimony - Find Your Perfect Match</h3>
+                <ul>
+                  <li>🔹 Profiles from the Ezhava community</li>
+                  <li>🔹 Verified and trusted members</li>
+                  <li>🔹 Personalized matchmaking services</li>
+                  <li>🔹 Dedicated customer support</li>
+                  <li>🔹 Thousands of successful matches</li>
+                </ul>
+                <p>
+                  Sign up today and meet your life partner from the Ezhava
+                  community!
+                </p>
 
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <ShieldCheck size={20} weight="duotone" />
+                <div className={DashStyles.membershipDetails}>
+                  <h4>Membership Details Coming Soon!</h4>
+                  <p>
+                    Stay tuned for our upcoming membership plans, offering
+                    exclusive services tailored to your needs.
+                  </p>
                 </div>
-                <div className={DashStyles.link}>
-                  <Link to={`/myprofile/${userId}`}>My Profile</Link>
-                </div>
-              </div>
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <SignOut size={20} weight="duotone" />
-                </div>
-                <div className={DashStyles.link}>
-                  <Link
-                    to="/"
-                    onClick={() => {
-                      dispatch(clearUser());
-                      navigate("/");
-                    }}
-                  >
-                    Logout
-                  </Link>
-                </div>
-              </div>
+              </div> */}
+       <div className={DashStyles.Adsplacement}>
+  <div className={DashStyles.AdsCarousel}>
+    {adsData.map((ad, index) => (
+      <div
+        key={index}
+        className={`${DashStyles.AdplacementCard} ${currentAdIndex === index ? DashStyles.active : ''}`}
+      >
+        <div className={DashStyles.AdImgDiv}>
+        {ad.comingSoon && (
+            <div className={DashStyles.ComingSoonBadge}>
+              Coming <br /> Soon
+            </div>
+          )}
+          <div className={`${DashStyles.AdTitle} ${getHeaderClass(ad.title)}`}>
+            <h3>{ad.title}</h3>
+          </div>
+          <p style={{fontSize:"28px" ,fontWeight:"600"}}>{ad.description}</p>
+          <p style={{fontSize:"28px" ,fontWeight:"600"}}>{ad.price}</p>
+          <p style={{fontSize:"30px" ,fontWeight:"600"}}>{ad.discount}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+            {/* </div> */}
+            <div className={DashStyles.Adplacement2}>
+                      
             </div>
           </div>
           {/* static details div for larger screens  end*/}
 
           {/* Profile details div for small screens start */}
+
           <div
             className={isOpen ? "overlay overlayActive" : "overlay"}
-          // onClick={toggleMenu}
+            // onClick={toggleMenu}
           >
             <div className={DashStyles.HamburgerMain}>
               {/* {showHamburger&&( */}
@@ -537,23 +607,27 @@ function Dashboard() {
                 onClick={() => toggleMenu()}
               >
                 <div
-                  className={`${DashStyles.ham1} ${isOpen ? DashStyles.open1 : ""
-                    }`}
+                  className={`${DashStyles.ham1} ${
+                    isOpen ? DashStyles.open1 : ""
+                  }`}
                 ></div>
                 <div
-                  className={`${DashStyles.ham2} ${isOpen ? DashStyles.open2 : ""
-                    }`}
+                  className={`${DashStyles.ham2} ${
+                    isOpen ? DashStyles.open2 : ""
+                  }`}
                 ></div>
                 <div
-                  className={`${DashStyles.ham3} ${isOpen ? DashStyles.open3 : ""
-                    }`}
+                  className={`${DashStyles.ham3} ${
+                    isOpen ? DashStyles.open3 : ""
+                  }`}
                 ></div>
               </div>
               {/* )} */}
               {/* profile div for smaller screens */}
               <div
-                className={`${DashStyles.drawer} ${isOpen ? DashStyles.drawerOpen : DashStyles.drawerClosed
-                  }`}
+                className={`${DashStyles.drawer} ${
+                  isOpen ? DashStyles.drawerOpen : DashStyles.drawerClosed
+                }`}
               >
                 <div className={DashStyles.ProfileCard}>
                   <div
@@ -767,11 +841,10 @@ function Dashboard() {
           </div>
 
           <div
-            className={`${DashStyles.Container} ${isOpen ? DashStyles.contentDimmed : ""
-              }`}
+            className={`${DashStyles.Container} ${
+              isOpen ? DashStyles.contentDimmed : ""
+            }`}
           >
-            
-
             {/* Top recommendation start */}
             <div className={DashStyles.TopRecommendation}>
               <div className={DashStyles.trHeading}>
@@ -815,8 +888,9 @@ function Dashboard() {
                           <HeartStraight
                             size={40}
                             weight={liked[item.id] ? "fill" : "light"}
-                            className={`${DashStyles.likedHeartBefore} ${liked[item.id] ? DashStyles.likedHeart : ""
-                              }`}
+                            className={`${DashStyles.likedHeartBefore} ${
+                              liked[item.id] ? DashStyles.likedHeart : ""
+                            }`}
                           />
                         </div>
                       </div>
@@ -841,9 +915,13 @@ function Dashboard() {
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
                 <button className={DashStyles.seeAllButton}>
-                  <Link to={`/toprecommendations/${userId}`} className={DashStyles.seeAllLink}>
-                  See All 
-                </Link></button>
+                  <Link
+                    to={`/toprecommendations/${userId}`}
+                    className={DashStyles.seeAllLink}
+                  >
+                    See All
+                  </Link>
+                </button>
               </div>
             </div>
             {/* Top recommendation end */}
@@ -910,11 +988,14 @@ function Dashboard() {
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
                 <button className={DashStyles.seeAllButton}>
-                <Link to={`/allmatches/${userId}`} className={DashStyles.seeAllLink}>
-                  See All 
-                </Link></button>
+                  <Link
+                    to={`/allmatches/${userId}`}
+                    className={DashStyles.seeAllLink}
+                  >
+                    See All
+                  </Link>
+                </button>
               </div>
-              
             </div>
             {/* All Matches end */}
 

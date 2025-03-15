@@ -142,9 +142,9 @@ function FormPage4() {
         {/* Main Content */}
         <div className={styles.contentDiv}>
           {/* Image Section */}
-          <div className={styles.imageDisplayDiv}>
+          {/* <div className={styles.imageDisplayDiv}>
             <img src={image} alt="Couple" className={styles.image} />
-          </div>
+          </div> */}
 
           <div className={styles.formContainer}>
             <h3 className={styles.formHeading}>  {userProfie.relation === "Myself" 
