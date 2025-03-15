@@ -221,6 +221,7 @@ function FormPage4() {
                       value={form.phoneNumber || ""}
                       onChange={handleChange}
                       name="phoneNumber"
+                      required
                     />
                   </div>
                 </div>
@@ -235,6 +236,7 @@ function FormPage4() {
                     accept="image/*"
                     className={styles.imageUploadInput}
                     onChange={handleImageChange}
+                    // required
                     
                   />
                 </label>

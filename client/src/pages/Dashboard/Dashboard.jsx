@@ -176,7 +176,7 @@ function Dashboard() {
 
       elements.forEach((el) => {
         if (
-          window.scrollY > 159 &&
+          window.scrollY > 38 &&
           !el.classList.contains(DashStyles.open1) &&
           !el.classList.contains(DashStyles.open2) &&
           !el.classList.contains(DashStyles.open3)
@@ -578,9 +578,9 @@ function Dashboard() {
           <div className={`${DashStyles.AdTitle} ${getHeaderClass(ad.title)}`}>
             <h3>{ad.title}</h3>
           </div>
-          <p style={{fontSize:"28px" ,fontWeight:"600"}}>{ad.description}</p>
-          <p style={{fontSize:"28px" ,fontWeight:"600"}}>{ad.price}</p>
-          <p style={{fontSize:"30px" ,fontWeight:"600"}}>{ad.discount}</p>
+          <p style={{fontSize:"20px" ,fontWeight:"600"}}>{ad.description}</p>
+          <p style={{fontSize:"20px" ,fontWeight:"600"}}>{ad.price}</p>
+          <p style={{fontSize:"25px" ,fontWeight:"600"}}>{ad.discount}</p>
         </div>
       </div>
     ))}
