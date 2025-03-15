@@ -22,7 +22,8 @@
   .container {
     width: 75%;
     /* height: 400px; */
-    /* max-width: 1200px; */
+    padding: 4rem 2rem;
+    max-width: 1200px;
     background: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     
@@ -36,7 +37,7 @@
     /* border: 2px solid #ffc107 ; */
     width: 75%;
     display: flex;
-    
+    max-width: 1200px;
     justify-content: flex-end;
 
   }
@@ -55,6 +56,7 @@
     color: #fff;
     /* background: #000; */
     display: flex;
+    margin-left: 8px;
     justify-content: center;
     align-items: center;
     padding-bottom:10px ;
@@ -388,6 +390,7 @@
   /* Footer */
   .footer {
     width: 75%;
+    max-width: 1200px;
     /* border: 2px solid #ffff; */
     text-align: right;
     /* padding-right: 10px; */

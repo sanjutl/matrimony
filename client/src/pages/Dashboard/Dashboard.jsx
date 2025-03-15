@@ -308,7 +308,28 @@ function Dashboard() {
       document.body.style.overflow = ""; // Cleanup when unmounting
     };
   }, [isOpen]);
+  const adsData = [
+    { title: 'Silver', description: '3 month plan', price: '₹4,500', discount: '10% OFF', comingSoon: true },
+    { title: 'Gold', description: '3 month plan', price: '₹4,300', discount: '12% OFF', comingSoon: true },
+    { title: 'Platinum', description: '6 month plan', price: '₹6,500', discount: '', comingSoon: true },
+  ];
+  
+  const getHeaderClass = (title) => {
+    if (title === 'Silver') return DashStyles.silverHeader;
+    if (title === 'Gold') return  DashStyles.goldHeader;
+    if (title === 'Platinum') return  DashStyles.platinumHeader;
+    return '';
+  };
+  const [currentAdIndex, setCurrentAdIndex] = useState(0);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentAdIndex((prevIndex) => (prevIndex + 1) % adsData.length);
+    }, 5000); 
+
+    return () => clearInterval(interval);
+  }, []);
+  
   const myRef = useRef([]); 
 const observerRef = useRef(null); // ✅ Ensure it's null initially
 const headingRef = useRef([]); // ✅ Separate ref for heading
@@ -353,7 +374,6 @@ const setHeadingRef = (index) => (el) => {
     if (observerRef.current) observerRef.current.observe(el);
   }
 };
-
   return (
     <div>
       {/* <ToastContainer position="bottom-right" /> */}
@@ -361,207 +381,266 @@ const setHeadingRef = (index) => (el) => {
         <Nav userId={userId} />
         <div className={DashStyles.SubContainer}>
           {/* static details div for larger screens  starts*/}
-          <div className={DashStyles.ProfileDiv}>
-            <div className={DashStyles.ProfileCard}>
-              <div
-                className={DashStyles.ProfileImage}
-                onClick={() => fileInputRef.current.click()}
-                style={{ cursor: "pointer" }}
-              >
-                <Avatar size={80} icon={<UserOutlined />} />
-              </div>
-              <input
-                type="file"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-                accept="image/*"
-              />
-              {showModal && (
-                <div className={DashStyles.modal}>
-                  <div className={DashStyles.modalContent}>
-                    <h3>Preview</h3>
-                    <img
-                      src={preview}
-                      alt="Selected Preview"
-                      style={{
-                        objectFit: "cover",
-                        borderRadius: "10px",
-                        width: "236px",
-                        height: "398px",
-                        backgroundColor: " #f0c040",
-                        cursor: "pointer",
-                        overflow: "hidden",
-                      }}
-                    />
-                    <div className={DashStyles.modalButtons}>
-                      <button onClick={handleUpload}>Yes</button>
-                      <button onClick={() => setShowModal(false)}>No</button>
+          <div className={DashStyles.sideBar}>
+            <div className={DashStyles.ProfileDiv}>
+              <div className={DashStyles.ProfileCard}>
+                <div
+                  className={DashStyles.ProfileImage}
+                  onClick={() => fileInputRef.current.click()}
+                  style={{ cursor: "pointer" }}
+                >
+                  <Avatar size={80} icon={<UserOutlined />} />
+                </div>
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                  accept="image/*"
+                />
+                {showModal && (
+                  <div className={DashStyles.modal}>
+                    <div className={DashStyles.modalContent}>
+                      <h3>Preview</h3>
+                      <img
+                        src={preview}
+                        alt="Selected Preview"
+                        style={{
+                          objectFit: "cover",
+                          borderRadius: "10px",
+                          width: "236px",
+                          height: "398px",
+                          backgroundColor: " #f0c040",
+                          cursor: "pointer",
+                          overflow: "hidden",
+                        }}
+                      />
+                      <div className={DashStyles.modalButtons}>
+                        <button onClick={handleUpload}>Yes</button>
+                        <button onClick={() => setShowModal(false)}>No</button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-              <div className={DashStyles.ProfileDetails}>
-                <p className={DashStyles.Greeting}>{greeting}</p>
-                <h2 className={DashStyles.UserName}>{userProfie.firstName}</h2>
-                {/* <p className={DashStyles.UserId}>Sanju@007</p> */}
-                <p className={DashStyles.MemberId}>{userProfie.userId}</p>
-                <p className={DashStyles.MembershipStatus}>Membership: Free</p>
-                <button className={DashStyles.UpgradeButton}>Upgrade</button>
-              </div>
-            </div>
-            <div className={DashStyles.ProfileCompletion}>
-              <p style={{ fontWeight: "600", fontSize: "14px" }}>
-                Complete your profile
-              </p>
-              {/* <p style={{ fontSize: "10px" }}>Your Profile Strength: 30%</p> */}
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <Pen
-                    size={20}
-                    weight="duotone"
-                    className={DashStyles.penIcon}
-                  />
-                </div>
-                <div className={DashStyles.link}>
-                  <Link to="/formpage1">Edit Profile</Link>
+                )}
+                <div className={DashStyles.ProfileDetails}>
+                  <p className={DashStyles.Greeting}>{greeting}</p>
+                  <h2 className={DashStyles.UserName}>
+                    {userProfie.firstName}
+                  </h2>
+                  {/* <p className={DashStyles.UserId}>Sanju@007</p> */}
+                  <p className={DashStyles.MemberId}>{userProfie.userId}</p>
+                  <p className={DashStyles.MembershipStatus}>
+                    Membership: Free
+                  </p>
+                  <button className={DashStyles.UpgradeButton}>Upgrade</button>
                 </div>
               </div>
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <Heart size={20} weight="duotone" />
+              <div className={DashStyles.ProfileCompletion}>
+                <p style={{ fontWeight: "600", fontSize: "14px" }}>
+                  Complete your profile
+                </p>
+                {/* <p style={{ fontSize: "10px" }}>Your Profile Strength: 30%</p> */}
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <Pen
+                      size={20}
+                      weight="duotone"
+                      className={DashStyles.penIcon}
+                    />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <Link to="/formpage1">Edit Profile</Link>
+                  </div>
                 </div>
-                <div className={DashStyles.link}>
-                  <Link to={`/likedprofiles/${userId}`}>Liked Profiles</Link>
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <Heart size={20} weight="duotone" />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <Link to={`/likedprofiles/${userId}`}>Liked Profiles</Link>
+                  </div>
                 </div>
-              </div>
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <User size={20} weight="duotone" />
-                </div>
-                <div className={DashStyles.link}>
-                  <div
-                    className={DashStyles.DropdownSecond}
-                    onClick={() =>
-                      document
-                        .querySelector(`.${DashStyles.DropdownMenuSecond}`)
-                        .classList.toggle(DashStyles.show)
-                    }
-                  >
-                    Profile Verification
-                    <div className={DashStyles.DropdownMenuSecond}>
-                      <div
-                        className={DashStyles.DropdownItemSecond}
-                        onClick={() =>
-                          document.getElementById("fileUpload").click()
-                        }
-                      >
-                        Upload document
-                        <input
-                          type="file"
-                          id="fileUpload"
-                          onChange={handlePdfChange}
-                          accept="application/pdf"
-                          style={{ display: "none" }}
-                          ref={pdfInputRef}
-                        />
-                      </div>
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <User size={20} weight="duotone" />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <div
+                      className={DashStyles.DropdownSecond}
+                      onClick={() =>
+                        document
+                          .querySelector(`.${DashStyles.DropdownMenuSecond}`)
+                          .classList.toggle(DashStyles.show)
+                      }
+                    >
+                      Profile Verification
+                      <div className={DashStyles.DropdownMenuSecond}>
+                        <div
+                          className={DashStyles.DropdownItemSecond}
+                          onClick={() =>
+                            document.getElementById("fileUpload").click()
+                          }
+                        >
+                          Upload document
+                          <input
+                            type="file"
+                            id="fileUpload"
+                            onChange={handlePdfChange}
+                            accept="application/pdf"
+                            style={{ display: "none" }}
+                            ref={pdfInputRef}
+                          />
+                        </div>
 
-                      {pdfModal && (
-                        <div className={DashStyles.PdfModalOverlay}>
-                          <div className={DashStyles.PdfModalContent}>
-                            <h3>Document Upload</h3>
-                            {preview ? (
-                              <p className={DashStyles.FileName}>
-                                Selected File: {pdfFile.name}
-                              </p>
-                            ) : (
-                              <p>No file selected</p>
-                            )}
+                        {pdfModal && (
+                          <div className={DashStyles.PdfModalOverlay}>
+                            <div className={DashStyles.PdfModalContent}>
+                              <h3>Document Upload</h3>
+                              {preview ? (
+                                <p className={DashStyles.FileName}>
+                                  Selected File: {pdfFile.name}
+                                </p>
+                              ) : (
+                                <p>No file selected</p>
+                              )}
 
-                            <div className={DashStyles.PdfModalActions}>
-                              <button
-                                onClick={handlePdfUpload}
-                                className={DashStyles.PdfYesButton}
-                              >
-                                Confirm
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setPdfModal(false);
-                                  setPdfFile(null);
-                                  setPreview(null);
-                                }}
-                                className={DashStyles.PdfNoButton}
-                              >
-                                Cancel
-                              </button>
+                              <div className={DashStyles.PdfModalActions}>
+                                <button
+                                  onClick={handlePdfUpload}
+                                  className={DashStyles.PdfYesButton}
+                                >
+                                  Confirm
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    setPdfModal(false);
+                                    setPdfFile(null);
+                                    setPreview(null);
+                                  }}
+                                  className={DashStyles.PdfNoButton}
+                                >
+                                  Cancel
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className={DashStyles.SettingsMain}>
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <Gear size={20} weight="duotone" />
+              <div className={DashStyles.SettingsMain}>
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <Gear size={20} weight="duotone" />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <Link to={`/Usettings/${userId}`}>Settings</Link>
+                  </div>
                 </div>
-                <div className={DashStyles.link}>
-                  <Link to={`/Usettings/${userId}`}>Settings</Link>
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <Question size={20} weight="duotone" />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <div
+                      className={DashStyles.HelpButton}
+                      onClick={() =>
+                        window.open(
+                          "https://mail.google.com/mail/?view=cm&fs=1&to=support@example.com&su=Help%20Request",
+                          "_blank"
+                        )
+                      }
+                    >
+                      Help
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <Question size={20} weight="duotone" />
+
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <ShieldCheck size={20} weight="duotone" />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <Link to={`/myprofile/${userId}`}>My Profile</Link>
+                  </div>
                 </div>
-                <div className={DashStyles.link}>
-                  <div
-                    className={DashStyles.HelpButton}
-                    onClick={() =>
-                      window.open(
-                        "https://mail.google.com/mail/?view=cm&fs=1&to=support@example.com&su=Help%20Request",
-                        "_blank"
-                      )
-                    }
-                  >
-                    Help
+                <div className={DashStyles.LinkIcon}>
+                  <div className={DashStyles.Icon}>
+                    <SignOut size={20} weight="duotone" />
+                  </div>
+                  <div className={DashStyles.link}>
+                    <Link
+                      to="/"
+                      onClick={() => {
+                        dispatch(clearUser());
+                        navigate("/");
+                      }}
+                    >
+                      Logout
+                    </Link>
                   </div>
                 </div>
               </div>
+            </div>
+            {/* <div className={DashStyles.Adsplacement}> */}
+            {/* <div className={DashStyles.adsContent}>
+                <h3>Ezhava Matrimony - Find Your Perfect Match</h3>
+                <ul>
+                  <li>🔹 Profiles from the Ezhava community</li>
+                  <li>🔹 Verified and trusted members</li>
+                  <li>🔹 Personalized matchmaking services</li>
+                  <li>🔹 Dedicated customer support</li>
+                  <li>🔹 Thousands of successful matches</li>
+                </ul>
+                <p>
+                  Sign up today and meet your life partner from the Ezhava
+                  community!
+                </p>
 
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <ShieldCheck size={20} weight="duotone" />
+                <div className={DashStyles.membershipDetails}>
+                  <h4>Membership Details Coming Soon!</h4>
+                  <p>
+                    Stay tuned for our upcoming membership plans, offering
+                    exclusive services tailored to your needs.
+                  </p>
                 </div>
-                <div className={DashStyles.link}>
-                  <Link to={`/myprofile/${userId}`}>My Profile</Link>
-                </div>
-              </div>
-              <div className={DashStyles.LinkIcon}>
-                <div className={DashStyles.Icon}>
-                  <SignOut size={20} weight="duotone" />
-                </div>
-                <div className={DashStyles.link}>
-                  <Link
-                    to="/"
-                    onClick={() => {
-                      dispatch(clearUser());
-                      navigate("/");
-                    }}
-                  >
-                    Logout
-                  </Link>
-                </div>
-              </div>
+              </div> */}
+       <div className={DashStyles.Adsplacement}>
+  <div className={DashStyles.AdsCarousel}>
+    {adsData.map((ad, index) => (
+      <div
+        key={index}
+        className={`${DashStyles.AdplacementCard} ${currentAdIndex === index ? DashStyles.active : ''}`}
+      >
+        <div className={DashStyles.AdImgDiv}>
+        {ad.comingSoon && (
+            <div className={DashStyles.ComingSoonBadge}>
+              Coming <br /> Soon
+            </div>
+          )}
+          <div className={`${DashStyles.AdTitle} ${getHeaderClass(ad.title)}`}>
+            <h3>{ad.title}</h3>
+          </div>
+          <p style={{fontSize:"28px" ,fontWeight:"600"}}>{ad.description}</p>
+          <p style={{fontSize:"28px" ,fontWeight:"600"}}>{ad.price}</p>
+          <p style={{fontSize:"30px" ,fontWeight:"600"}}>{ad.discount}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+            {/* </div> */}
+            <div className={DashStyles.Adplacement2}>
+                      
             </div>
           </div>
           {/* static details div for larger screens  end*/}
 
           {/* Profile details div for small screens start */}
+
           <div
             className={isOpen ? "overlay overlayActive" : "overlay"}
             // onClick={toggleMenu}

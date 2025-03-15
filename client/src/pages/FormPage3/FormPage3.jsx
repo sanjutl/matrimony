@@ -121,13 +121,13 @@ function FormPage3() {
         <div className={styles.contentDiv}>
           {/* Image Section */}
 
-          <div className={styles.imageDisplayDiv}>
+          {/* <div className={styles.imageDisplayDiv}>
             <img
-              src={image} // Replace with actual image URL
+              src={image} 
               alt="Couple"
               className={styles.image}
             />
-          </div>
+          </div> */}
 
           {/* Form Section */}
 

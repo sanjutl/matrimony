@@ -61,15 +61,12 @@
   border-radius: 10px;
 }
 .ProfileDiv {
-  width: 20%;
-  /* background: aliceblue; */
-  /* height:450px; */
-  position: absolute;
-  top: 80px;
-  right: 30px;
+  width: 100%;
   border-radius: 10px;
   border: 2px solid #d9d9d9;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  flex-shrink: 0;
 }
 .ProfileCard {
   width: 100%;
@@ -376,7 +373,7 @@
 }
 .likedHeartBefore {
   color: #fff;
-  transition: transform 0.5s ease-in-out, color  ease-in-out;
+  transition: transform 0.5s ease-in-out, color ease-in-out;
   /* color: transparent; */
   /* border: 1px solid #fff; */
 }
@@ -1004,27 +1001,183 @@ a {
     opacity: 1;
   }
 }
+.sideBar {
+  width: 20%;
+  /* background: aliceblue; */
+  /* height:450px; */
+  position: absolute;
+  top: 80px;
+  right: 30px;
+  min-height: max-content;
+  height: 80%;
+  /* border: 3px solid red; */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.Adsplacement {
+  width: 100%;
+  border-radius: 10px;
+  background: transparent;
+  /* background: radial-gradient(circle, rgba(240,192,64,1) 0%, rgba(102,101,99,1) 100%); */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 400px;
+  overflow-y: hidden;
+  position: relative;
+  flex-shrink: 0;
 
+  /* margin-top: 5rem;
+   margin-bottom: auto; */
+  /* flex-grow: 1; */
+}
+.AdsCarousel {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  height: 100%;
+}
+
+.AdplacementCard {
+  flex: 1 0 100%;
+  padding: 20px;
+  border-radius: 10px;
+  display: none;
+  background:transparent;
+  /* backdrop-filter: blur(10px); */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 4px 8px rgba(255, 255, 255, 0.25),
+    inset 0 -4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  overflow: hidden;
+  position: relative;
+}
+
+.AdplacementCard.active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fade-in 1s ease-in-out;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2), 
+  inset 0 5px 10px rgba(255, 255, 255, 0.25), 
+  inset 0 -5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.AdImgDiv {
+  text-align: center;
+}
+.AdTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  /* default white color */
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+  text-transform: uppercase;
+}
+
+.AdTitle h3 {
+  margin: 0;
+  color: inherit; 
+}
+
+.silverHeader {
+
+  color: #C0C0C0; 
+}
+
+.goldHeader {
+  
+  color: #FFD700; 
+}
+
+.platinumHeader {
+
+  color: #df11a1; 
+}
+
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.ComingSoonBadge {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: repeating-linear-gradient(
+    45deg,
+    #f8cb08,
+    #f8cb08 10px,
+    #f0c040 10px,
+    #f0c040 20px
+  );
+  color: white;
+  font-size: 1.3rem;
+  font-weight: bold;
+  padding: 30px 40px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: rotate(-15deg);
+  z-index: 1;
+  animation: pop 0.8s ease-out infinite;
+
+  /* Creative heart shape with a more elegant curvature */
+  clip-path: path("M75 35 C75 10, 110 0, 125 25 C140 50, 120 90, 75 120 C30 90, 10 50, 25 25 C40 0, 75 10, 75 35 Z");
+  width: 130px;
+  height: 115px;
+  padding: 25px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+
+@keyframes pop {
+  0%, 100% {
+    transform: rotate(-15deg) scale(1);
+  }
+  50% {
+    transform: rotate(-15deg) scale(1.1);
+  }
+}
+
+
+.Adplacement2 {
+  width: 100%;
+  background-color: #f8cb08;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Enable scrolling if content exceeds */
+  margin-top: 1rem;
+  flex-grow: 1;
+}
 @media (max-width: 1048px) {
   .SubContainer {
-    margin: 50px;
+    margin: 20px;
   }
   .Container {
     width: 70%;
     /* border: 2px solid red; */
   }
-  
+  .sideBar {
+    width: 27%;
+    right: 5px;
+  }
   .FilterDiv {
     width: 100%;
     right: 5px;
   }
-  .ProfileDiv{
-    width: 25%;
+  .ProfileDiv {
+    width: 100%;
     right: 5px;
   }
-  .FilterDivMain{
-    width: 30%;
-    right:-20px;
+  .FilterDivMain {
+    width: 35%;
+    right: -20px;
   }
   .LinkIcon {
     gap: 0;
@@ -1050,7 +1203,8 @@ a {
   } */
   .ProfileDiv,
   .FilterDiv,
-  .FilterDivMain {
+  .FilterDivMain,
+  .sideBar {
     display: none;
   }
   .Hamburger {
@@ -1121,21 +1275,21 @@ a {
     place-items: center;
     gap: 26px;
   }
-  .trCard{
+  .trCard {
     width: 90%;
     height: 460px;
   }
-  .trCardImg{
+  .trCardImg {
     height: 390px;
   }
-  .trUserName{
+  .trUserName {
     font-size: 24px;
   }
-  .trUserDetails{
+  .trUserDetails {
     font-size: 18px;
     font-weight: 400;
   }
-  .LikeButton{
+  .LikeButton {
     width: 60px;
     height: 60px;
     display: flex;
