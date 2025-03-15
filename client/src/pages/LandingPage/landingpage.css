@@ -107,7 +107,7 @@ body {
   .landing-form-container form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 13px;
   }
   
   .landing-form-container label {

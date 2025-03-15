@@ -28,10 +28,10 @@
   }
 
 
-  .notification-alert{
+  .notification-alert{  
     position:absolute;
-    top:0px;
-    left:10px;
+    top:20px;
+    left:27px;
     height:10px;
     width:10px;
    background-color:red;
@@ -175,6 +175,10 @@
     }
   .icon-button7 {
     padding: 0px;
+  }
+  .notification-alert{
+    top: 0px;
+    left: 10px;
   }
   }
   @media (max-width: 480px) {

@@ -329,6 +329,51 @@ function Dashboard() {
 
     return () => clearInterval(interval);
   }, []);
+  
+  const myRef = useRef([]); 
+const observerRef = useRef(null); // ✅ Ensure it's null initially
+const headingRef = useRef([]); // ✅ Separate ref for heading
+
+useEffect(() => {
+  if (!observerRef.current) {
+    observerRef.current = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add(DashStyles.animateIn);
+        }
+      });
+    });
+  }
+
+  // ✅ Ensure only unique elements are observed
+  headingRef.current.forEach((el) => {
+    if (el && observerRef.current) observerRef.current.observe(el);
+  });
+
+  myRef.current.forEach((el) => {
+    if (el && observerRef.current) observerRef.current.observe(el);
+  });
+
+  return () => {
+    if (observerRef.current) {
+      observerRef.current.disconnect();
+    }
+  };
+}, []);
+
+const setElementRef = (index) => (el) => {
+  if (el) {
+    myRef.current[index] = el;
+    if (observerRef.current) observerRef.current.observe(el);
+  }
+};
+
+const setHeadingRef = (index) => (el) => {
+  if (el) {
+    headingRef.current[index] = el;
+    if (observerRef.current) observerRef.current.observe(el);
+  }
+};
   return (
     <div>
       {/* <ToastContainer position="bottom-right" /> */}
@@ -571,7 +616,7 @@ function Dashboard() {
       >
         <div className={DashStyles.AdImgDiv}>
         {ad.comingSoon && (
-            <div className={DashStyles.ComingSoonBadge}>
+            <div className="">
               Coming <br /> Soon
             </div>
           )}
@@ -686,7 +731,7 @@ function Dashboard() {
                   </div>
                 </div>
                 <div className={DashStyles.ProfileCompletion}>
-                  <p style={{ fontWeight: "600", fontSize:"20px" }}>
+                  <p style={{ fontWeight: "600", fontSize: "20px" }}>
                     Complete your profile
                   </p>
                   <p style={{ fontSize: "10px" }}></p>
@@ -847,7 +892,7 @@ function Dashboard() {
           >
             {/* Top recommendation start */}
             <div className={DashStyles.TopRecommendation}>
-              <div className={DashStyles.trHeading}>
+              <div className={DashStyles.trHeading} ref={setHeadingRef(0)}>
                 <h2 className={DashStyles.TrHead}>Top Recommendations</h2>
                 <h4 className={DashStyles.TrContent}>
                   Members who match your partner preference
@@ -856,7 +901,7 @@ function Dashboard() {
               <div className={DashStyles.trContentDisplay}>
                 {topMatches && topMatches.length > 0 ? (
                   topMatches.map((item, index) => (
-                    <div key={index} className={DashStyles.trCard}>
+                    <div key={index} className={DashStyles.trCard} ref={(el) => setElementRef(-1)(el)}>
                       <div
                         className={DashStyles.trCardImg}
                         onClick={() => profileView(item.id)}
@@ -914,7 +959,7 @@ function Dashboard() {
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-                <button className={DashStyles.seeAllButton}>
+                <button className={DashStyles.seeAllButton} ref={setHeadingRef(1)}>
                   <Link
                     to={`/toprecommendations/${userId}`}
                     className={DashStyles.seeAllLink}
@@ -934,7 +979,7 @@ function Dashboard() {
               <div className={DashStyles.trContentDisplay}>
                 {allMatches && allMatches.length > 0 ? (
                   allMatches.map((item, index) => (
-                    <div key={index} className={DashStyles.trCard}>
+                    <div key={index} className={DashStyles.trCard} ref={(el) => setElementRef(index)(el)}>
                       <div
                         className={DashStyles.trCardImg}
                         onClick={() => profileView(item._id)}
@@ -987,7 +1032,7 @@ function Dashboard() {
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-                <button className={DashStyles.seeAllButton}>
+                <button className={DashStyles.seeAllButton} ref={setHeadingRef(2  )}>
                   <Link
                     to={`/allmatches/${userId}`}
                     className={DashStyles.seeAllLink}
@@ -995,7 +1040,7 @@ function Dashboard() {
                     See All
                   </Link>
                 </button>
-              </div>  
+              </div>
             </div>
             {/* All Matches end */}
 

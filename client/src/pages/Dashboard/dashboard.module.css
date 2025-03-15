@@ -30,6 +30,11 @@
   gap: 10px;
   /* padding-top: 5rem; */
 }
+.trHeading{
+  opacity: 0;
+  transform: translateX(-100px);
+  transition: all ease 1s;
+}
 .trHeading h2{
   font-size: 34px;
 }
@@ -247,7 +252,6 @@
   } */
 .TopRecommendation {
   /* border: 2px solid #666; */
-  margin-top: 3rem;
   position: relative;
 }
 .SeeAll {
@@ -255,7 +259,9 @@
   justify-content: flex-end;
   margin-top: 1rem;
   cursor: pointer;
+  
 }
+
 .SeeAll a {
   text-decoration: none;
   font-size: 14px;
@@ -290,6 +296,8 @@
   border-radius: 10px;
   border: none;
   transition: all ease 1s;
+  opacity: 0;
+  transform: translateX(-300px);
 }
 .seeAllButton:hover {
   background-color: #f0c040;
@@ -313,6 +321,8 @@
   backdrop-filter: blur(3.4px);
   transition: all ease 1s;
   transform: scale(1);
+  transform: translateY(100px);
+  opacity: 0;
 }
 .trCard:hover {
   transform: scale(1.03);
@@ -675,6 +685,12 @@ a {
 .heading {
   color: #222;
   font-size: 24px;
+}
+.animateIn{
+  opacity: 1;
+  transform: translateY(0px);
+  transform: translateX(0px);
+
 }
 .tabSelected {
   text-decoration: underline;
@@ -1090,47 +1106,46 @@ a {
     opacity: 1;
   }
 }
-.ComingSoonBadge {
-  position: absolute;
-  top: 0px;
-  right: -10px;
-  transform: skewX(30px);
-  background: radial-gradient(circle at center, #f8cb08, #f0c040);
-  color: white;
-  font-size: 1rem; /* Reduced font size */
-  font-weight: bold;
-  padding: 20px 25px; /* Adjusted padding */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transform: rotate(-15deg);
-  z-index: 1;
-  /* animation: pop 0.8s ease-out infinite; */
 
-  /* Scaled-down heart shape */
-  clip-path: path("M60 28 C60 12, 88 0, 100 24 C112 48, 100 80, 60 96 C20 80, 8 48, 20 24 C32 0, 60 12, 60 28 Z");
-  width: 120px; /* Reduced width */
-  height: 100px; /* Reduced height */
-  padding: 18px 22px; /* Adjusted padding */
+
+.balloon {
+  width: 200px;
+  height: 250px;
+  background: red;
+  clip-path: path('M 100 5 C 50 5 5 50 5 100 C 5 150 50 195 100 195 C 150 195 195 150 195 100 C 195 50 150 5 100 5 Z M 100 195 L 80 245 L 120 245 Z');
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  animation: slideIn 1.5s ease-out forwards, pop 1s ease-out infinite 1.5s;
+  box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Balloon String */
+.balloon::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 100px;
+  background: black;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Reflection for a glossy effect */
+.balloon::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 30px;
+  background: white;
+  opacity: 0.3;
+  border-radius: 50%;
+  top: 20px;
+  left: 90px;
 }
 
 
-
-
-@keyframes slideInPop {
-  0% {
-    transform: translateX(150%) rotate(-15deg) scale(0.8);
-  }
-  60% {
-    transform: translateX(0) rotate(-15deg) scale(1.2);
-  }
-  100% {
-    transform: translateX(0) rotate(-15deg) scale(1);
-  }
-}
 @keyframes pop {
   0%, 100% {
     transform: rotate(-15deg) scale(1);
@@ -1148,7 +1163,6 @@ a {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow-y: auto; /* Enable scrolling if content exceeds */
   margin-top: 1rem;
-  flex-grow: 1;
 }
 @media (max-width: 1048px) {
   .SubContainer {
