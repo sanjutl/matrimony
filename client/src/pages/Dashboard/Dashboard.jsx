@@ -309,71 +309,89 @@ function Dashboard() {
     };
   }, [isOpen]);
   const adsData = [
-    { title: 'Silver', description: '3 month plan', price: '₹4,500', discount: '10% OFF', comingSoon: true },
-    { title: 'Gold', description: '3 month plan', price: '₹4,300', discount: '12% OFF', comingSoon: true },
-    { title: 'Platinum', description: '6 month plan', price: '₹6,500', discount: '', comingSoon: true },
+    {
+      title: "Silver",
+      description: "3 month plan",
+      price: "₹4,500",
+      discount: "10% OFF",
+      comingSoon: true,
+    },
+    {
+      title: "Gold",
+      description: "3 month plan",
+      price: "₹4,300",
+      discount: "12% OFF",
+      comingSoon: true,
+    },
+    {
+      title: "Platinum",
+      description: "6 month plan",
+      price: "₹6,500",
+      discount: "",
+      comingSoon: true,
+    },
   ];
-  
+
   const getHeaderClass = (title) => {
-    if (title === 'Silver') return DashStyles.silverHeader;
-    if (title === 'Gold') return  DashStyles.goldHeader;
-    if (title === 'Platinum') return  DashStyles.platinumHeader;
-    return '';
+    if (title === "Silver") return DashStyles.silverHeader;
+    if (title === "Gold") return DashStyles.goldHeader;
+    if (title === "Platinum") return DashStyles.platinumHeader;
+    return "";
   };
   const [currentAdIndex, setCurrentAdIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentAdIndex((prevIndex) => (prevIndex + 1) % adsData.length);
-    }, 5000); 
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
-  
-  const myRef = useRef([]); 
-const observerRef = useRef(null); // ✅ Ensure it's null initially
-const headingRef = useRef([]); // ✅ Separate ref for heading
 
-useEffect(() => {
-  if (!observerRef.current) {
-    observerRef.current = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add(DashStyles.animateIn);
-        }
+  const myRef = useRef([]);
+  const observerRef = useRef(null); // ✅ Ensure it's null initially
+  const headingRef = useRef([]); // ✅ Separate ref for heading
+
+  useEffect(() => {
+    if (!observerRef.current) {
+      observerRef.current = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add(DashStyles.animateIn);
+          }
+        });
       });
+    }
+
+    // ✅ Ensure only unique elements are observed
+    headingRef.current.forEach((el) => {
+      if (el && observerRef.current) observerRef.current.observe(el);
     });
-  }
 
-  // ✅ Ensure only unique elements are observed
-  headingRef.current.forEach((el) => {
-    if (el && observerRef.current) observerRef.current.observe(el);
-  });
+    myRef.current.forEach((el) => {
+      if (el && observerRef.current) observerRef.current.observe(el);
+    });
 
-  myRef.current.forEach((el) => {
-    if (el && observerRef.current) observerRef.current.observe(el);
-  });
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, []);
 
-  return () => {
-    if (observerRef.current) {
-      observerRef.current.disconnect();
+  const setElementRef = (index) => (el) => {
+    if (el) {
+      myRef.current[index] = el;
+      if (observerRef.current) observerRef.current.observe(el);
     }
   };
-}, []);
 
-const setElementRef = (index) => (el) => {
-  if (el) {
-    myRef.current[index] = el;
-    if (observerRef.current) observerRef.current.observe(el);
-  }
-};
-
-const setHeadingRef = (index) => (el) => {
-  if (el) {
-    headingRef.current[index] = el;
-    if (observerRef.current) observerRef.current.observe(el);
-  }
-};
+  const setHeadingRef = (index) => (el) => {
+    if (el) {
+      headingRef.current[index] = el;
+      if (observerRef.current) observerRef.current.observe(el);
+    }
+  };
   return (
     <div>
       {/* <ToastContainer position="bottom-right" /> */}
@@ -608,35 +626,46 @@ const setHeadingRef = (index) => (el) => {
                   </p>
                 </div>
               </div> */}
-       <div className={DashStyles.Adsplacement}>
-  <div className={DashStyles.AdsCarousel}>
-    {adsData.map((ad, index) => (
-      <div
-        key={index}
-        className={`${DashStyles.AdplacementCard} ${currentAdIndex === index ? DashStyles.active : ''}`}
-      >
-        <div className={DashStyles.AdImgDiv}>
-        {ad.comingSoon && (
-            <div className="">
-              Coming <br /> Soon
-            </div>
-          )}
-          <div className={`${DashStyles.AdTitle} ${getHeaderClass(ad.title)}`}>
-            <h3>{ad.title}</h3>
-          </div>
-          <p style={{fontSize:"20px" ,fontWeight:"600"}}>{ad.description}</p>
-          <p style={{fontSize:"20px" ,fontWeight:"600"}}>{ad.price}</p>
-          <p style={{fontSize:"25px" ,fontWeight:"600"}}>{ad.discount}</p>
-        </div>
-      </div>
+            <div className={DashStyles.Adsplacement}>
+              <div className={DashStyles.AdsCarousel}>
+              {Array.from({ length: 5 }).map((_, index) => (
+      <div key={index} className={DashStyles.heart}></div>
     ))}
-  </div>
-</div>
+                {adsData.map((ad, index) => (
+                  <div
+                    key={index}
+                    className={`${DashStyles.AdplacementCard} ${
+                      currentAdIndex === index ? DashStyles.active : ""
+                    }`}
+                  >
+                    <div className={DashStyles.AdImgDiv}>
+                      {ad.comingSoon && (
+                        <div className={DashStyles.comingSoon}>Coming Soon</div>
+                      )}
+                      <div
+                        className={`${DashStyles.AdTitle} ${getHeaderClass(
+                          ad.title
+                        )}`}
+                      >
+                        <h3>{ad.title}</h3>
+                      </div>
+                      <p style={{ fontSize: "28px", fontWeight: "600" }}>
+                        {ad.description}
+                      </p>
+                      <p style={{ fontSize: "28px", fontWeight: "600" }}>
+                        {ad.price}
+                      </p>
+                      <p style={{ fontSize: "30px", fontWeight: "600" }}>
+                        {ad.discount}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             {/* </div> */}
-            <div className={DashStyles.Adplacement2}>
-                      
-            </div>
+            <div className={DashStyles.Adplacement2}></div>
           </div>
           {/* static details div for larger screens  end*/}
 
@@ -902,7 +931,11 @@ const setHeadingRef = (index) => (el) => {
               <div className={DashStyles.trContentDisplay}>
                 {topMatches && topMatches.length > 0 ? (
                   topMatches.map((item, index) => (
-                    <div key={index} className={DashStyles.trCard} ref={(el) => setElementRef(-1)(el)}>
+                    <div
+                      key={index}
+                      className={DashStyles.trCard}
+                      ref={(el) => setElementRef(-1)(el)}
+                    >
                       <div
                         className={DashStyles.trCardImg}
                         onClick={() => profileView(item.id)}
@@ -960,8 +993,12 @@ const setHeadingRef = (index) => (el) => {
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-                <button className={DashStyles.seeAllButton} ref={setHeadingRef(1)}>
+                <button
+                  className={DashStyles.seeAllButton}
+                  ref={setHeadingRef(1)}
+                >
                   <Link
+                  onClick={()=>{window.scrollTo({ top: 0, behavior: "smooth" });}}
                     to={`/toprecommendations/${userId}`}
                     className={DashStyles.seeAllLink}
                   >
@@ -980,7 +1017,11 @@ const setHeadingRef = (index) => (el) => {
               <div className={DashStyles.trContentDisplay}>
                 {allMatches && allMatches.length > 0 ? (
                   allMatches.map((item, index) => (
-                    <div key={index} className={DashStyles.trCard} ref={(el) => setElementRef(index)(el)}>
+                    <div
+                      key={index}
+                      className={DashStyles.trCard}
+                      ref={(el) => setElementRef(index)(el)}
+                    >
                       <div
                         className={DashStyles.trCardImg}
                         onClick={() => profileView(item._id)}
@@ -1033,8 +1074,12 @@ const setHeadingRef = (index) => (el) => {
               </div>
               <div className={DashStyles.SeeAll}>
                 {/* <h4 className={DashStyles.saHead}>See All</h4> */}
-                <button className={DashStyles.seeAllButton} ref={setHeadingRef(2  )}>
+                <button
+                  className={DashStyles.seeAllButton}
+                  ref={setHeadingRef(2)}
+                >
                   <Link
+                  onClick={()=>{window.scrollTo({ top: 0, behavior: "smooth" });}}
                     to={`/allmatches/${userId}`}
                     className={DashStyles.seeAllLink}
                   >
