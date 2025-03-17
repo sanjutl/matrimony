@@ -15,7 +15,7 @@ function FormPage5() {
   const [residentStatus, setResidentStatus] = useState("");
   const [form, setForm] = useState({});
   const [userProfie, setUserProfile] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ function FormPage5() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
     const formData = {
       ...form,
       employmentStatus,
@@ -46,7 +46,7 @@ function FormPage5() {
       );
       if (response.status === 200) {
         setTimeout(() => {
-          setIsLoading(false);
+          // setIsLoading(false);
           dispatch(setUser({ id: id ,token:token,role:role}));
           navigate(`/dashboard/${id}`);
           console.log(response);
@@ -55,7 +55,7 @@ function FormPage5() {
     } catch (error) {
       console.error(error);
       alert("An error occurred while submitting the form.");
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -367,7 +367,7 @@ function FormPage5() {
   
   return (
     <div className={styles.mainContainer}>
-      {isLoading && <Loader />}
+      {/* {isLoading && <Loader />} */}
       <div className={styles.progressDiv}>
         <div className={styles.progressHeading}>You have completed</div>
         <div className={styles.progressHeading2}>90%</div>
@@ -728,7 +728,7 @@ function FormPage5() {
                 <button
                   type="submit"
                   className={styles.submitButton}
-                  disabled={isLoading}
+                  // disabled={isLoading}
                 >
                   Complete
                 </button>
