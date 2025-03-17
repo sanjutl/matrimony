@@ -1159,14 +1159,14 @@ a {
 }
 @keyframes fall {
   0% {
-    transform: translateY(-100px)  rotateY(0deg) scale(1);
+    transform: translateY(-100px)  rotateY(0deg) scale(0.6);
     opacity: 0;
   }
   50% {
     opacity: 1;
   }
   100% {
-    transform: translateY(100vh)   rotateY(360deg) scale(1.5);
+    transform: translateY(100vh)   rotateY(360deg) scale(0.8);
     opacity: 0;
   }
 }
