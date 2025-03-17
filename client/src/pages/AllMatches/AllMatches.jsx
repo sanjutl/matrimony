@@ -807,7 +807,7 @@ function AllMatches() {
 
           {/*  start */}
           <div className={DashStyles.TopRecommendation}>
-            <div className={DashStyles.trHeading}>
+            <div className={DashStyles.trHeading} ref={setHeadingRef(0)}>
               <h2 className={DashStyles.TrHead}>
                 All Matches({allMatches.length})
               </h2>

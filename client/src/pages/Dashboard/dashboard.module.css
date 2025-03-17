@@ -1034,7 +1034,30 @@ a {
   display: flex;
   transition: transform 0.5s ease-in-out;
   height: 100%;
+  background-image: url(../../assets/comingsoon.jpg);
+  background-size: cover;
+  background-position: bottom;
+  font-family:Cookie;
+  position: relative;
+  overflow: hidden;
+
 }
+.heart {
+  position: absolute;
+  top: -50px;
+  width: 60px;
+  height: 60px;
+  background-image: url(../../assets/heart.png); /* Replace with correct path */
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: fall 5s linear infinite;
+  opacity: 0;
+}
+.heart:nth-child(1) { left: 10%; animation-duration: 4s; }
+.heart:nth-child(2) { left: 25%; animation-duration: 5s; }
+.heart:nth-child(3) { left: 40%; animation-duration: 6s; }
+.heart:nth-child(4) { left: 60%; animation-duration: 4.5s; }
+.heart:nth-child(5) { left: 80%; animation-duration: 6.5s; }
 
 .AdplacementCard {
   flex: 1 0 100%;
@@ -1049,6 +1072,8 @@ a {
   transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
   overflow: hidden;
   position: relative;
+  font-family:Cookie;
+
 }
 
 .AdplacementCard.active {
@@ -1064,6 +1089,8 @@ a {
 
 .AdImgDiv {
   text-align: center;
+  font-family:Cookie;
+
 }
 .AdTitle {
   font-size: 1.5rem;
@@ -1072,6 +1099,8 @@ a {
   padding: 10px;
   border-radius: 10px 10px 0 0;
   text-transform: uppercase;
+  font-family:Cookie;
+
 }
 
 .AdTitle h3 {
@@ -1082,16 +1111,23 @@ a {
 .silverHeader {
 
   color: #C0C0C0; 
+  font-family:Cookie;
+
 }
 
 .goldHeader {
   
   color: #FFD700; 
+  font-family:Cookie;
+
 }
 
 .platinumHeader {
 
   color: #df11a1; 
+  font-family:Cookie;
+
+
 }
 
 
@@ -1103,70 +1139,12 @@ a {
     opacity: 1;
   }
 }
-/* .ComingSoonBadge {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  background: repeating-linear-gradient(
-    45deg,
-    #f8cb08,
-    #f8cb08 10px,
-    #f0c040 10px,
-    #f0c040 20px
-  );
-  color: white;
-  font-size: 1.3rem;
-  font-weight: bold;
-  padding: 30px 40px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  z-index: 1;
-  clip-path:("M75 35 C75 10, 110 0, 125 28 C140 78, 82 90, 75 123 C70 95, 3 78, 23 25 C40 0, 75 10, 75 35 Z");
-  width: 130px;
-  height: 115px;
-  padding: 25px 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-} */
 
-.balloon {
-  width: 200px;
-  height: 250px;
-  background: red;
-  clip-path: path('M 100 5 C 50 5 5 50 5 100 C 5 150 50 195 100 195 C 150 195 195 150 195 100 C 195 50 150 5 100 5 Z M 100 195 L 80 245 L 120 245 Z');
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: inset -5px -5px 10px rgba(0, 0, 0, 0.2);
+.comingSoon{
+  font-size: 50px;
+  color: #f0c040;
+  font-family:Cookie;
 }
-
-/* Balloon String */
-.balloon::after {
-  content: "";
-  position: absolute;
-  width: 2px;
-  height: 100px;
-  background: black;
-  bottom: -100px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* Reflection for a glossy effect */
-.balloon::before {
-  content: "";
-  position: absolute;
-  width: 20px;
-  height: 30px;
-  background: white;
-  opacity: 0.3;
-  border-radius: 50%;
-  top: 20px;
-  left: 90px;
-}
-
 
 @keyframes pop {
   0%, 100% {
@@ -1176,7 +1154,29 @@ a {
     transform: rotate(-15deg) scale(1.1);
   }
 }
+@keyframes fall {
+  0% {
+    transform: translateY(-100px)  rotateY(0deg) scale(1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh)   rotateY(360deg) scale(1.5);
+    opacity: 0;
+  }
+}
 
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-draw {
+  animation: draw 3s ease-in-out forwards;
+}
 
 .Adplacement2 {
   width: 100%;

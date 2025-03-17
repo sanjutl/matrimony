@@ -755,7 +755,7 @@ function TopRecommendation() {
         >
           {/* Top recommendation start */}
           <div className={DashStyles.TopRecommendation}>
-            <div className={DashStyles.trHeading}>
+            <div className={DashStyles.trHeading} ref={setHeadingRef(0)}>
               <h2 className={DashStyles.TrHead}>Top Recommendations</h2>
               <h4 className={DashStyles.TrContent}>
                 Members who match your partner preference
