@@ -98,7 +98,6 @@ function UserMain() {
   return (
     <div>
       <Nav userId={userId} />
-      <h2 className="all-match">All Matches  </h2>
       <div className="profile-view-main-container">
         <div className="profile-cards">
           <div className="image-container">

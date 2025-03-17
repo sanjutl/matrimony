@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { motion } from "framer-motion";
-
 import DashStyles from "./dashboard.module.css";
 import {
   Pen,
@@ -8,11 +6,7 @@ import {
   Gear,
   Question,
   ShieldCheck,
-  Shield,
   HeartStraight,
-  Headset,
-  Users,
-  Crown,
   User,
   SignOut,
 } from "phosphor-react";
@@ -27,7 +21,6 @@ import { clearUser } from "../../features/slice";
 import { Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import baseUrl from "../../baseUrl";
-import CardComponent from "../../component/CardCpmponent/CardComponent";
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -312,22 +305,19 @@ function Dashboard() {
     {
       title: "Silver",
       description: "3 month plan",
-      price: "₹4,500",
-      discount: "10% OFF",
+
       comingSoon: true,
     },
     {
       title: "Gold",
       description: "3 month plan",
-      price: "₹4,300",
-      discount: "12% OFF",
+
       comingSoon: true,
     },
     {
       title: "Platinum",
       description: "6 month plan",
-      price: "₹6,500",
-      discount: "",
+
       comingSoon: true,
     },
   ];
@@ -396,6 +386,7 @@ function Dashboard() {
     <div>
       {/* <ToastContainer position="bottom-right" /> */}
       <div className={DashStyles.mainContainer}>
+        <div className={DashStyles.mainContainerSub}></div>
         <Nav userId={userId} />
         <div className={DashStyles.SubContainer}>
           {/* static details div for larger screens  starts*/}
@@ -409,7 +400,7 @@ function Dashboard() {
                 >
                   <Avatar size={80} icon={<UserOutlined />} />
                 </div>
-                
+
                 <input
                   type="file"
                   ref={fileInputRef}
@@ -603,34 +594,12 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-            {/* <div className={DashStyles.Adsplacement}> */}
-            {/* <div className={DashStyles.adsContent}>
-                <h3>Ezhava Matrimony - Find Your Perfect Match</h3>
-                <ul>
-                  <li>🔹 Profiles from the Ezhava community</li>
-                  <li>🔹 Verified and trusted members</li>
-                  <li>🔹 Personalized matchmaking services</li>
-                  <li>🔹 Dedicated customer support</li>
-                  <li>🔹 Thousands of successful matches</li>
-                </ul>
-                <p>
-                  Sign up today and meet your life partner from the Ezhava
-                  community!
-                </p>
 
-                <div className={DashStyles.membershipDetails}>
-                  <h4>Membership Details Coming Soon!</h4>
-                  <p>
-                    Stay tuned for our upcoming membership plans, offering
-                    exclusive services tailored to your needs.
-                  </p>
-                </div>
-              </div> */}
             <div className={DashStyles.Adsplacement}>
               <div className={DashStyles.AdsCarousel}>
-              {Array.from({ length: 5 }).map((_, index) => (
-      <div key={index} className={DashStyles.heart}></div>
-    ))}
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <div key={index} className={DashStyles.heart}></div>
+                ))}
                 {adsData.map((ad, index) => (
                   <div
                     key={index}
@@ -998,7 +967,9 @@ function Dashboard() {
                   ref={setHeadingRef(1)}
                 >
                   <Link
-                  onClick={()=>{window.scrollTo({ top: 0, behavior: "smooth" });}}
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
                     to={`/toprecommendations/${userId}`}
                     className={DashStyles.seeAllLink}
                   >
@@ -1079,7 +1050,9 @@ function Dashboard() {
                   ref={setHeadingRef(2)}
                 >
                   <Link
-                  onClick={()=>{window.scrollTo({ top: 0, behavior: "smooth" });}}
+                    onClick={() => {
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }}
                     to={`/allmatches/${userId}`}
                     className={DashStyles.seeAllLink}
                   >
@@ -1088,200 +1061,6 @@ function Dashboard() {
                 </button>
               </div>
             </div>
-            {/* All Matches end */}
-
-            {/* Discover Matches start */}
-            {/* <div className={DashStyles.PreferenceDiv}>
-              <div className={DashStyles.trHeading}>
-                <h2 className={DashStyles.TrHead}>Discover Matches</h2>
-                <h4 className={DashStyles.TrContent}>
-                  Explore profiles by matching your preferences
-                </h4>
-              </div>
-
-              <div className={DashStyles.preferenceContent}>
-                <div className={DashStyles.preferenceContentCard}>
-                  <div className={DashStyles.PreferenceNameDiv}>
-                    <h3 className={DashStyles.PreferenceName}>
-                      Education (31)
-                    </h3>
-                  </div>
-                </div>
-                <div className={DashStyles.preferenceContentCard}>
-                  <div className={DashStyles.PreferenceNameDiv}>
-                    <h3 className={DashStyles.PreferenceName}>
-                      Profession (31)
-                    </h3>
-                  </div>
-                </div>
-                <div className={DashStyles.preferenceContentCard}>
-                  <div className={DashStyles.PreferenceNameDiv}>
-                    <h3 className={DashStyles.PreferenceName}>
-                      Profile With Photos (31)
-                    </h3>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-            {/* Discover Matches end */}
-            {/* Nearby Matches start*/}
-            {/* <div className={DashStyles.TopRecommendation}>
-              <div className={DashStyles.trHeading}>
-                <h2 className={DashStyles.TrHead}>Nearby Matches (20)</h2>
-                <h4 className={DashStyles.TrContent}>
-                  Explore matches by location
-                </h4>
-              </div>
-              <div className={DashStyles.trContentDisplay}>
-                <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className={DashStyles.trCard}>
-                  <div className={DashStyles.trCardImg}>
-                    <img
-                      src={image}
-                      alt="Crad imgae"
-                      className={DashStyles.cardImage}
-                    />
-                  </div>
-                  <div className={DashStyles.trCardDetails}>
-                    <div className={DashStyles.trCardDetailSub}>
-                      <h5 className={DashStyles.trUserName}>Gopika Krishnan</h5>
-                      <h6 className={DashStyles.trUserDetails}>25 Yrs ,5'7"</h6>
-                    </div>
-                    <div
-                      className={DashStyles.LikeButton}
-                      onClick={() => likedProfile()}
-                    >
-                      <HeartStraight
-                        size={20}
-                        weight={liked ? "fill" : "light"}
-                        className={`${DashStyles.likedHeartBefore} ${
-                          liked ? DashStyles.likedHeart : ""
-                        }`}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={DashStyles.SeeAll}>
-                
-                <Link to="/">
-                  See All <span className={DashStyles.SpanArrow}>{">"}</span>
-                </Link>
-              </div>
-            </div> */}
-            {/* Nearby Matches end*/}
-            {/* Explore Matrimony start */}
-            {/* <div className={DashStyles.ExploreMatrimonyDiv}>
-              <div className={DashStyles.trHeading}>
-                <h2 className={DashStyles.TrHead}>Explore Matrimony</h2>
-              </div>
-              <div className={DashStyles.ExploreContent}>
-                <div className={DashStyles.ExploreContentIcons}>
-                  <div className={DashStyles.ExploreIcons}>
-                    <Shield size={76} color="#f0c040" weight="light" />
-                    <h6 className={DashStyles.ExplorePara}>Saftey & Privacy</h6>
-                  </div>
-                  <div className={DashStyles.ExploreIcons}>
-                    <Headset size={76} color="#f0c040" weight="light" />
-                    <h6 className={DashStyles.ExplorePara}>Help & Support</h6>
-                  </div>
-                  <div className={DashStyles.ExploreIcons}>
-                    <Users size={76} color="#f0c040" weight="light" />
-                    <h6 className={DashStyles.ExplorePara}>
-                      100% Matched Profiles
-                    </h6>
-                  </div>
-                  <div className={DashStyles.ExploreIcons}>
-                    <Crown size={76} color="#f0c040" weight="light" />{" "}
-                    <h6 className={DashStyles.ExplorePara}>
-                      Premium Membership
-                    </h6>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-            {/* Explore Matrimony end */}
           </div>
         </div>
         <Footer />
