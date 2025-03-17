@@ -239,6 +239,8 @@ function FormPage4() {
                     // required
                     
                   />
+                  <p className={styles.starHead}>*</p>
+
                 </label>
               </div>
               {showModal && (

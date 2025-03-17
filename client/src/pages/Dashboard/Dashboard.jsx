@@ -391,6 +391,7 @@ const setHeadingRef = (index) => (el) => {
                 >
                   <Avatar size={80} icon={<UserOutlined />} />
                 </div>
+                
                 <input
                   type="file"
                   ref={fileInputRef}
