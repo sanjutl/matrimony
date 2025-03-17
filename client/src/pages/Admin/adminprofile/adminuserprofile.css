@@ -186,9 +186,10 @@
   .verification-main-container {
   width: 100%;
   margin: auto;
-  background-color: #e2e2e2;
+  /* background-color: #e2e2e2; */
   padding: 20px 10px;
   border-radius: 20px;
+
 }
 .profile-view-main-container
   .about-card

@@ -120,6 +120,7 @@ function Dashboard() {
         `${baseUrl}:8000/api/v1/user/usercarddetails/${userId}`
       );
       setUserProfile(response.data.data);
+      
     } catch (error) {
       console.log("error", error);
     }
@@ -305,19 +306,22 @@ function Dashboard() {
     {
       title: "Silver",
       description: "3 month plan",
-
+      price: "£4,500",
+      discount: "10% OFF",
       comingSoon: true,
     },
     {
       title: "Gold",
       description: "3 month plan",
-
+      price: "£4,300",
+      discount: "12% OFF",
       comingSoon: true,
     },
     {
       title: "Platinum",
       description: "6 month plan",
-
+      price: "£6,500",
+      discount: "",
       comingSoon: true,
     },
   ];
@@ -339,8 +343,8 @@ function Dashboard() {
   }, []);
 
   const myRef = useRef([]);
-  const observerRef = useRef(null); // ✅ Ensure it's null initially
-  const headingRef = useRef([]); // ✅ Separate ref for heading
+  const observerRef = useRef(null); 
+  const headingRef = useRef([]);
 
   useEffect(() => {
     if (!observerRef.current) {
