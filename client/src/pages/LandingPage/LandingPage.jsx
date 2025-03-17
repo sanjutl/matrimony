@@ -64,10 +64,7 @@ function LandingPage() {
       if (response) {
         console.log(response.data);
         dispatch(setUser({ id: response.data.userId ,token:response.data.token,role:response.data.role})); // Dispatch Redux action
-        console.log("Dispatched ID:", response.data.userId); // Debug Redux action
         localStorage.setItem("userId", response.data.userId);
-        console.log("Token:", response?.data?.token);
-        console.log(response.data.userId);
         const userId = response.data.userId;
         navigate(`/dashboard/${userId}`);
       }
