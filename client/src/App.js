@@ -45,7 +45,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/register" element={<LoginPAge />} />
           <Route path="/OtpPage" element={<OtpPage />} />
-          {/* <Route element={<ProtectedRoute allowedRoles={[300]} />}> */}
+          <Route element={<ProtectedRoute allowedRoles={[300]} />}>
             <Route path="/formpage1" element={<FormPage1 />} />
             <Route path="/formpage2" element={<FormPage2 />} />
             <Route path="/formpage3" element={<FormPage3 />} />
@@ -67,7 +67,7 @@ function App() {
             />
             <Route path="/likedprofiles/:id" element={<LikedProfiles />} />
             <Route path="/myprofile/:id" element={<MyProfile />} />
-          {/* </Route> */}
+          </Route>
 
           {/* Admin routes */}
           <Route element={<ProtectedRoute allowedRoles={[500]} />}>
