@@ -20,10 +20,13 @@ function FormPage5() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+  
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === "country" ? { city: "" } : {}), // Reset city when country change
+    }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -297,6 +300,71 @@ function FormPage5() {
     "Zimbabwe",
     "Other",
   ];
+  const countryCities = {
+    England: [
+      "London", 
+      "Manchester", 
+      "Birmingham", 
+      "Liverpool", 
+      "Leeds", 
+      "Bristol", 
+      "Sheffield", 
+      "Newcastle", 
+      "Nottingham", 
+      "Leicester", 
+      "Coventry", 
+      "Brighton", 
+      "Cambridge", 
+      "Oxford", 
+      "Exeter", 
+      "Southampton", 
+      "Portsmouth", 
+      "Norwich", 
+      "Plymouth", 
+      "York", 
+      "Luton", 
+      "Blackpool", 
+      "Bradford"
+    ],
+    Scotland: [
+      "Edinburgh", 
+      "Glasgow", 
+      "Aberdeen", 
+      "Dundee", 
+      "Inverness", 
+      "Stirling", 
+      "Perth", 
+      "Falkirk", 
+      "Paisley", 
+      "Livingston", 
+      "Dunfermline"
+    ],
+    Wales: [
+      "Cardiff", 
+      "Swansea", 
+      "Newport", 
+      "Bangor", 
+      "Wrexham", 
+      "Barry", 
+      "Bridgend", 
+      "Merthyr Tydfil", 
+      "Caerphilly", 
+      "Llanelli"
+    ],
+    "Northern Ireland": [
+      "Belfast", 
+      "Derry", 
+      "Lisburn", 
+      "Newry", 
+      "Armagh", 
+      "Bangor", 
+      "Antrim", 
+      "Coleraine", 
+      "Carrickfergus", 
+      "Ballymena"
+    ]
+  };
+  
   return (
     <div className={styles.mainContainer}>
       {isLoading && <Loader />}
@@ -557,88 +625,55 @@ function FormPage5() {
                 </div>
               </div>
               <div className={styles.formGroup}>
-                <div className={styles.fieldGroup}>
-                  <div className={styles.labelGroup}>
-                    <label>State</label>
-                    <p className={styles.starHead}>*</p>
-                  </div>
-                  <div className={styles.inputGroup}>
-                    <select
-                      className={styles.input}
-                      required
-                      value={form.state || ""}
-                      onChange={handleChange}
-                      name="state"
-                    >
-                      <option>Select Your State</option>
-                      <option value="Andhra Pradesh">Andhra Pradesh</option>
-                      <option value="Arunachal Pradesh">
-                        Arunachal Pradesh
-                      </option>
-                      <option value="Assam">Assam</option>
-                      <option value="Bihar">Bihar</option>
-                      <option value="Chhattisgarh">Chhattisgarh</option>
-                      <option value="Goa">Goa</option>
-                      <option value="Gujarat">Gujarat</option>
-                      <option value="Haryana">Haryana</option>
-                      <option value="Himachal Pradesh">Himachal Pradesh</option>
-                      <option value="Jharkhand">Jharkhand</option>
-                      <option value="Karnataka">Karnataka</option>
-                      <option value="Kerala">Kerala</option>
-                      <option value="Madhya Pradesh">Madhya Pradesh</option>
-                      <option value="Maharashtra">Maharashtra</option>
-                      <option value="Manipur">Manipur</option>
-                      <option value="Meghalaya">Meghalaya</option>
-                      <option value="Mizoram">Mizoram</option>
-                      <option value="Nagaland">Nagaland</option>
-                      <option value="Odisha">Odisha</option>
-                      <option value="Punjab">Punjab</option>
-                      <option value="Rajasthan">Rajasthan</option>
-                      <option value="Sikkim">Sikkim</option>
-                      <option value="Tamil Nadu">Tamil Nadu</option>
-                      <option value="Telangana">Telangana</option>
-                      <option value="Tripura">Tripura</option>
-                      <option value="Uttar Pradesh">Uttar Pradesh</option>
-                      <option value="Uttarakhand">Uttarakhand</option>
-                      <option value="West Bengal">West Bengal</option>
-                      <option value="Andaman and Nicobar Islands">
-                        Andaman and Nicobar Islands
-                      </option>
-                      <option value="Chandigarh">Chandigarh</option>
-                      <option value="Dadra and Nagar Haveli and Daman and Diu">
-                        Dadra and Nagar Haveli and Daman and Diu
-                      </option>
-                      <option value="Delhi">Delhi</option>
-                      <option value="Jammu and Kashmir">
-                        Jammu and Kashmir
-                      </option>
-                      <option value="Ladakh">Ladakh</option>
-                      <option value="Lakshadweep">Lakshadweep</option>
-                      <option value="Puducherry">Puducherry</option>
-                    </select>
-                  </div>
-                  <div className={styles.helperTextDiv}></div>
-                </div>
-              </div>
-              <div className={styles.formGroup}>
-                <div className={styles.fieldGroup}>
-                  <div className={styles.labelGroup}>
-                    <label>City</label>
-                    <p className={styles.starHead}>*</p>
-                  </div>
-                  <div className={styles.inputGroup}>
-                    <input
-                      type="text"
-                      className={styles.input}
-                      placeholder="city"
-                      value={form.location || ""}
-                      name="location"
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className={styles.helperTextDiv}></div>
-                </div>
-              </div>
+        <div className={styles.fieldGroup}>
+          <div className={styles.labelGroup}>
+            <label>Country</label>
+            <p className={styles.starHead}>*</p>
+          </div>
+          <div className={styles.inputGroup}>
+            <select
+              className={styles.input}
+              required
+              value={form.country}
+              onChange={handleChange}
+              name="country"
+            >
+              <option value="">Select Your Country</option>
+              {Object.keys(countryCities).map((country) => (
+                <option key={country} value={country}>
+                  {country}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      </div>
+      {form.country && (
+        <div className={styles.formGroup}>
+          <div className={styles.fieldGroup}>
+            <div className={styles.labelGroup}>
+              <label>City</label>
+              <p className={styles.starHead}>*</p>
+            </div>
+            <div className={styles.inputGroup}>
+              <select
+                className={styles.input}
+                required
+                value={form.location}
+                onChange={handleChange}
+                name="location"
+              >
+                <option value="">Select Your City</option>
+                {countryCities[form.country].map((location) => (
+                  <option key={location} value={location}>
+                    {location}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+      )}
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>
@@ -665,7 +700,7 @@ function FormPage5() {
                   <div className={styles.helperTextDiv}></div>
                 </div>
               </div>
-              ;
+              
               <div className={styles.formGroup}>
                 <div className={styles.fieldGroup}>
                   <div className={styles.labelGroup}>

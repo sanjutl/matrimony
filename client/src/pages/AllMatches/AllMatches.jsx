@@ -35,6 +35,7 @@ function AllMatches() {
     occupation: "",
     annualIncome: "",
     education: "",
+    location:""
   });
 
   // const lastIndex = currentPage * itemsPerPage;
@@ -181,7 +182,9 @@ function AllMatches() {
           item.annualIncome?.toLowerCase() ===
             filters.annualIncome?.toLowerCase()) &&
         (filters.education === "" ||
-          item.education?.toLowerCase() === filters.education?.toLowerCase())
+          item.education?.toLowerCase() === filters.education?.toLowerCase())&&
+          (filters.location==="" || item.location?.toLowerCase()===filters.location?.toLowerCase())
+          
       );
     });
 
@@ -200,10 +203,12 @@ function AllMatches() {
       occupation: "",
       annualIncome: "",
       education: "",
+      location:""
     });
     setFilteredMatches(allMatches);
     setFiltersApplied(false);
     setCurrentPage(1);
+    if(isOpen)setIsOpen(false);
   };
   const profileView = async (id) => {
     if (!id) {
@@ -340,7 +345,70 @@ function AllMatches() {
                 <option value="Widowed">Widowed</option>
                 <option value="Divorced">Divorced</option>
                 <option value="Awaiting Divorce">Awaiting Divorce</option>
+
               </select>
+              <select
+                    name="location"
+                    className={DashStyles.bdSelect}
+                    value={filters.location}
+                    onChange={handleFilterChange}
+                  >
+                    <option>Location</option>
+                    <option value="Aberdeen">Aberdeen</option>
+  <option value="Antrim">Antrim</option>
+  <option value="Armagh">Armagh</option>
+  <option value="Ballymena">Ballymena</option>
+  <option value="Bangor">Bangor</option>
+  <option value="Bangor">Bangor</option>
+  <option value="Barry">Barry</option>
+  <option value="Belfast">Belfast</option>
+  <option value="Birmingham">Birmingham</option>
+  <option value="Blackpool">Blackpool</option>
+  <option value="Bradford">Bradford</option>
+  <option value="Bridgend">Bridgend</option>
+  <option value="Brighton">Brighton</option>
+  <option value="Bristol">Bristol</option>
+  <option value="Caerphilly">Caerphilly</option>
+  <option value="Cambridge">Cambridge</option>
+  <option value="Carrickfergus">Carrickfergus</option>
+  <option value="Cardiff">Cardiff</option>
+  <option value="Coleraine">Coleraine</option>
+  <option value="Coventry">Coventry</option>
+  <option value="Derry">Derry</option>
+  <option value="Dundee">Dundee</option>
+  <option value="Dunfermline">Dunfermline</option>
+  <option value="Edinburgh">Edinburgh</option>
+  <option value="Exeter">Exeter</option>
+  <option value="Falkirk">Falkirk</option>
+  <option value="Glasgow">Glasgow</option>
+  <option value="Inverness">Inverness</option>
+  <option value="Leeds">Leeds</option>
+  <option value="Leicester">Leicester</option>
+  <option value="Lisburn">Lisburn</option>
+  <option value="Liverpool">Liverpool</option>
+  <option value="Livingston">Livingston</option>
+  <option value="London">London</option>
+  <option value="Luton">Luton</option>
+  <option value="Llanelli">Llanelli</option>
+  <option value="Manchester">Manchester</option>
+  <option value="Merthyr Tydfil">Merthyr Tydfil</option>
+  <option value="Newcastle">Newcastle</option>
+  <option value="Newport">Newport</option>
+  <option value="Newry">Newry</option>
+  <option value="Nottingham">Nottingham</option>
+  <option value="Norwich">Norwich</option>
+  <option value="Oxford">Oxford</option>
+  <option value="Paisley">Paisley</option>
+  <option value="Perth">Perth</option>
+  <option value="Plymouth">Plymouth</option>
+  <option value="Portsmouth">Portsmouth</option>
+  <option value="Sheffield">Sheffield</option>
+  <option value="Southampton">Southampton</option>
+  <option value="Stirling">Stirling</option>
+  <option value="Swansea">Swansea</option>
+  <option value="Wrexham">Wrexham</option>
+  <option value="York">York</option>
+                  </select>
               {/* <select name="motherTongue" className={DashStyles.bdSelect} onChange={handleFilterChange} value={filters.motherTongue}>
                 <option >Mother Tongue</option>
                 <option value="malayalam">Malayalam</option>
@@ -577,13 +645,13 @@ function AllMatches() {
             <div className={DashStyles.FilterHam} onClick={() => toggleMenu()}>
               {isOpen ? (
                 <X
-                  size={20}
+                  size={40}
                   weight="bold"
                   className={DashStyles.FilterCloseIcon}
                 />
               ) : (
                 <SlidersHorizontal
-                  size={25}
+                  size={40}
                   weight="duotone"
                   className={DashStyles.FilterIcon}
                 />
@@ -646,7 +714,69 @@ function AllMatches() {
                     <option value="Divorced">Divorced</option>
                     <option value="Awaiting Divorce">Awaiting Divorce</option>
                   </select>
-
+                  <select
+                    name="location"
+                    className={DashStyles.bdSelect}
+                    value={filters.location}
+                    onChange={handleFilterChange}
+                  >
+                    <option>Location</option>
+                    <option value="Aberdeen">Aberdeen</option>
+  <option value="Antrim">Antrim</option>
+  <option value="Armagh">Armagh</option>
+  <option value="Ballymena">Ballymena</option>
+  <option value="Bangor">Bangor</option>
+  <option value="Bangor">Bangor</option>
+  <option value="Barry">Barry</option>
+  <option value="Belfast">Belfast</option>
+  <option value="Birmingham">Birmingham</option>
+  <option value="Blackpool">Blackpool</option>
+  <option value="Bradford">Bradford</option>
+  <option value="Bridgend">Bridgend</option>
+  <option value="Brighton">Brighton</option>
+  <option value="Bristol">Bristol</option>
+  <option value="Caerphilly">Caerphilly</option>
+  <option value="Cambridge">Cambridge</option>
+  <option value="Carrickfergus">Carrickfergus</option>
+  <option value="Cardiff">Cardiff</option>
+  <option value="Coleraine">Coleraine</option>
+  <option value="Coventry">Coventry</option>
+  <option value="Derry">Derry</option>
+  <option value="Dundee">Dundee</option>
+  <option value="Dunfermline">Dunfermline</option>
+  <option value="Edinburgh">Edinburgh</option>
+  <option value="Exeter">Exeter</option>
+  <option value="Falkirk">Falkirk</option>
+  <option value="Glasgow">Glasgow</option>
+  <option value="Inverness">Inverness</option>
+  <option value="Leeds">Leeds</option>
+  <option value="Leicester">Leicester</option>
+  <option value="Lisburn">Lisburn</option>
+  <option value="Liverpool">Liverpool</option>
+  <option value="Livingston">Livingston</option>
+  <option value="London">London</option>
+  <option value="Luton">Luton</option>
+  <option value="Llanelli">Llanelli</option>
+  <option value="Manchester">Manchester</option>
+  <option value="Merthyr Tydfil">Merthyr Tydfil</option>
+  <option value="Newcastle">Newcastle</option>
+  <option value="Newport">Newport</option>
+  <option value="Newry">Newry</option>
+  <option value="Nottingham">Nottingham</option>
+  <option value="Norwich">Norwich</option>
+  <option value="Oxford">Oxford</option>
+  <option value="Paisley">Paisley</option>
+  <option value="Perth">Perth</option>
+  <option value="Plymouth">Plymouth</option>
+  <option value="Portsmouth">Portsmouth</option>
+  <option value="Sheffield">Sheffield</option>
+  <option value="Southampton">Southampton</option>
+  <option value="Stirling">Stirling</option>
+  <option value="Swansea">Swansea</option>
+  <option value="Wrexham">Wrexham</option>
+  <option value="York">York</option>
+                  </select>
+      
 
                 </div>
               </div>
@@ -799,11 +929,11 @@ function AllMatches() {
           </div>
         </div>
 
-        <div
-          className={`${DashStyles.Container} ${
-            isOpen ? DashStyles.contentDimmed : ""
-          }`}
-        >
+       <div
+                  className={`${DashStyles.Container} ${
+                    isOpen ? DashStyles.contentDimmed : ""
+                  }`}
+                >
 
           {/*  start */}
           <div className={DashStyles.TopRecommendation}>

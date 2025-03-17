@@ -176,7 +176,7 @@ function Dashboard() {
 
       elements.forEach((el) => {
         if (
-          window.scrollY > 159 &&
+          window.scrollY > 38 &&
           !el.classList.contains(DashStyles.open1) &&
           !el.classList.contains(DashStyles.open2) &&
           !el.classList.contains(DashStyles.open3)
