@@ -1309,6 +1309,12 @@ a {
     place-items: center;
     gap: 26px;
   }
+  .FilterCloseIcon{
+    right: -10px;
+    width: 30px;
+    color: #f8cb08;
+    
+  }
   .trCard {
     width: 90%;
     height: 460px;
@@ -1379,8 +1385,37 @@ a {
     /* padding: 10px; */
   }
   .drawer {
-    width: 90%;
+    width: 85%;
     /* padding: 10px; */
+  }
+  .ProfileCard{
+    padding-top: 10px;
+    margin-bottom: 0;
+  }
+  .ProfileImage{
+    margin-bottom: 0;
+  }
+  .UserName{
+    margin-bottom: 0;
+  }
+  .MembershipStatus{
+    margin-top: 0;
+    
+  }
+  .UpgradeButton{
+    margin-top: 0;
+  }
+  .ProfileCompletion{
+    padding: 0;
+  }
+  .SettingsMain{
+    padding: 0;
+  }
+  .DropdownSecond{
+    font-size: 14px;
+  }
+  .DropdownSecond:hover{
+    color: inherit;
   }
   .ExploreContentIcons {
     width: 95%;
@@ -1391,5 +1426,14 @@ a {
   }
   .PdfModalContent {
     width: 60%;
+  }
+  .SettingsMain{
+    padding: 0;
+  }
+  .link,.HelpButton{
+    font-size: 16px;
+  }
+  .PageSelection a{
+    font-size: 16px;
   }
 }
