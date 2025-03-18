@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
+import { motion } from "framer-motion";
+
 import DashStyles from "./dashboard.module.css";
 import {
   Pen,
@@ -6,7 +8,11 @@ import {
   Gear,
   Question,
   ShieldCheck,
+  Shield,
   HeartStraight,
+  Headset,
+  Users,
+  Crown,
   User,
   SignOut,
 } from "phosphor-react";
