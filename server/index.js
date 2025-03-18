@@ -48,8 +48,8 @@ app.get("*", (req, res) => {
 
 connectdb()
   .then(() => {
-    server.listen(process.env.PORT || 8000, () => {
-      console.log(` Server running at port ${process.env.PORT || 8000}`);
+    server.listen(process.env.PORT  , () => {
+      console.log(` Server running at port ${process.env.PORT }`);
     });
   })
   .catch((err) => {
