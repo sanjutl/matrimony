@@ -22,7 +22,7 @@ const __dirname = path.dirname(_filename);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(cors({
-  origin:"https://ukezhavamatrimony.com",
+  origin:"http://65.1.144.216",
   methods:["GET","POST","PUT","DELETE"],
   credentials:true,
 }));
