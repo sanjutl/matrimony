@@ -1,10 +1,10 @@
 import connectdb from "./mongoDB/index.js";
 import { app } from "./app.js";
-import https from "https";
+import http from "http";
 import { Server } from "socket.io";
 import path from "path";
 
-const server = https.createServer(app); 
+const server = http.createServer(app); 
 
 const io = new Server(server, {
   cors: {
