@@ -8,7 +8,7 @@ const server = https.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://ukezhavamatrimony.com",
+    origin: "http://65.1.144.216:3000",
     methods: ["GET", "POST"],
     credentials: true,
   },
