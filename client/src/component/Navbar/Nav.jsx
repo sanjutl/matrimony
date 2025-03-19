@@ -24,7 +24,7 @@ function Nav({ userId }) {
     const fetchNotifications = async () => {
       try {
         const { data } = await axios.get(
-          `${baseUrl}/api/v1/user/unread/${userId}`
+          `${baseUrl}:8000/api/v1/user/unread/${userId}`
         );
         setNotifications(Array.isArray(data?.response) ? data.response : []);
       } catch (error) {
